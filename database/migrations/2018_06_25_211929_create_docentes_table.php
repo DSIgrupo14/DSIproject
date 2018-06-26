@@ -18,6 +18,7 @@ class CreateDocentesTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('nip', 10)->unique();
             $table->string('especialidad', 100)->nullable();
+            $table->string('imagen', 100)->default('docente_default.jpg');
             $table->boolean('estado');
 
             $table->foreign('user_id')->references('id')->on('users');
