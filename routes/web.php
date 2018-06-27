@@ -15,3 +15,6 @@ Route::get('/', function () {
     //return view('welcome');
     return view('layouts.general');
 });
+
+// Roles de usuario.
+Route::resource('roles', 'RolController');
