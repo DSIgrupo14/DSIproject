@@ -20,6 +20,7 @@ class CreateGradosTable extends Migration
             $table->integer('docente_id')->unsigned();
             $table->string('codigo', 10)->unique();
             $table->char('seccion', 1);
+            $table->boolean('estado');
 
             $table->foreign('nivel_id')->references('id')->on('niveles');
             $table->foreign('anio_id')->references('id')->on('anios');

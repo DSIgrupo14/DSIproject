@@ -10,20 +10,48 @@ class User extends Authenticatable
     use Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * Atributos que son asignados en masa.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'rol_id',
+        'nombre',
+        'apellido',
+        'email',
+        'password',
+        'dui',
+        'imagen',
+        'estado',
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * Atributos que deben estar ocultos para los arrays.
      *
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
+
+    /**
+     * Obtiene el rol que posee el usuario.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function rol()
+    {
+        return $this->belongsTo('DSIproject\Rol');
+    }
+
+    /**
+     * Obtiene los docentes que tienen asignado el usuario.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function docentes()
+    {
+        return $this->hasMany('DSIproject\Docente');
+    }
 }
