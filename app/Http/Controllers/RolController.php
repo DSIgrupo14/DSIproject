@@ -109,7 +109,7 @@ class RolController extends Controller
     }
 
     /**
-     * Da de baja el rol de usuario especificado.
+     * Da de baja al rol de usuario especificado.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

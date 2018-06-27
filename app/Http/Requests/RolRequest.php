@@ -33,12 +33,5 @@ class RolRequest extends FormRequest
         }
 
         return $rules;
-
-        /*
-        return [
-            'codigo' => 'required|max:5|unique:roles,codigo,' . $this->route('role'),
-            'nombre' => 'required|max:100',
-        ];
-        */
     }
 }

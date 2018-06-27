@@ -1,8 +1,8 @@
 @extends('layouts.general')
 
-@section('titulo', 'CEAA | Roles de usuario')
+@section('titulo', 'CEAA | Usuarios')
 
-@section('encabezado', 'Roles de usuario')
+@section('encabezado', 'Usuario')
 
 @section('subencabezado', 'Gestión')
 
@@ -11,7 +11,7 @@
   <i class="fa fa-shield"></i> Seguridad
 </li>
 <li class="active">
-  Roles de usuario
+  Usuarios
 </li>
 @endsection
 
@@ -19,56 +19,59 @@
 <!-- Box Primary -->
 <div class="box box-primary">
   <div class="box-header with-border">
-    <h3 class="box-title">Gestión de Roles de Usuario</h3>
+    <h3 class="box-title">Gestión de Usuarios</h3>
   </div>
   <div class="box-body">
     <div class="row">
       <div class="col-sm-6">
-        <a href="{{ route('roles.create') }}" class="btn btn-primary btn-flat">Registrar rol de usuario</a>
+        <a href="{{ route('users.create') }}" class="btn btn-primary btn-flat">Registrar usuario</a>
       </div>
       <div class="col-sm-6">
       	<!-- Barra de búsqueda -->
-      	@include('roles.search')
+      	@include('users.search')
       </div>
     </div>
-  	<!-- Listado de roles de usuario -->
-  	@if ($roles->count() > 0)
+  	<!-- Listado de usuarios -->
+  	@if ($users->count() > 0)
   	<div class="table-responsive">
       <table class="table table-hover table-striped table-bordered table-quitar-margen">
         <thead>
           <tr>
             <th>ID</th>
-            <th>Código</th>
             <th>Nombre</th>
+            <th>Rol</th>
             <th>Opciones</th>
           </tr>
         </thead>
         <tbody>
-          @foreach($roles as $rol)
+          @foreach($users as $user)
           <tr>
-            <td>{{ $rol->id }}</td>
-            <td>{{ $rol->codigo }}</td>
-            <td>{{ $rol->nombre }}</td>
+            <td>{{ $user->id }}</td>
+            <td>{{ $user->nombre }} {{ $user->apellido }}</td>
+            <td>{{ $user->rol->nombre }}</td>
             <td>
-              <a href="{{ route('roles.edit', $rol->id) }}" class="btn btn-default btn-flat">
+              <a href="{{ route('users.show', $user->id) }}" class="btn btn-default btn-flat">
+                <i class="fa fa-eye" aria-hidden="true"></i>
+              </a>
+              <a href="{{ route('users.edit', $user->id) }}" class="btn btn-default btn-flat">
                 <i class="fa fa-wrench" aria-hidden="true"></i>
               </a>
-              <a href="" data-target="#modal-delete-{{ $rol->id }}" data-toggle="modal" class="btn btn-danger btn-flat">
+              <a href="" data-target="#modal-delete-{{ $user->id }}" data-toggle="modal" class="btn btn-danger btn-flat">
                 <i class="fa fa-trash" aria-hidden="true"></i>
               </a>
             </td>
           </tr>
           <!-- Modal para dar de baja -->
-          @include('roles.modal')
+          @include('users.modal')
           @endforeach
         </tbody>
       </table>
     </div>
-    <!-- Si no hay roles de usuario -->
+    <!-- Si no hay usuarios -->
     @else
       <div class="text-center">
         <i class="fa fa-search fa-5x" aria-hidden="true"></i>
-        <h4>No se encontraron roles de usuario</h4>
+        <h4>No se encontraron usuarios</h4>
       </div>
     @endif
   </div>
@@ -76,7 +79,7 @@
   <div class="box-footer">
     <div class="pull-right">
     	<!-- Paginación -->
-      {!! $roles->render() !!}
+      {!! $users->render() !!}
     </div>
   </div>
   <!-- /.box-footer-->

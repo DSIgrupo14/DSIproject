@@ -54,4 +54,19 @@ class User extends Authenticatable
     {
         return $this->hasMany('DSIproject\Docente');
     }
+
+    /**
+     * Recibe el valor de password y solo modifica si no es un valor vacío.
+     *
+     * @param  string  $value
+     * @return void
+     */
+
+    public function setPasswordAttribute($value)
+    {
+        if (!empty($value))
+        {
+            $this->attributes['password'] = $value;
+        }
+    }
 }
