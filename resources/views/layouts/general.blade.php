@@ -116,7 +116,7 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">GESTIÓN ACADÉMICA</li>
         <li>
-          <a href="#">
+          <a href="{{ route('grados.index') }}">
             <i class="fa fa-graduation-cap"></i> <span>Grados</span>
           </a>
         </li>

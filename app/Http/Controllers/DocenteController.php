@@ -3,6 +3,9 @@
 namespace DSIproject\Http\Controllers;
 
 use DSIproject\Docente;
+use DSIproject\Jornadas;
+use DSIproject\Grados;
+use DSIproject\User;
 use Illuminate\Http\Request;
 use Laracasts\Flash\Flash;
 class DocenteController extends Controller
@@ -40,7 +43,8 @@ class DocenteController extends Controller
      */
     public function create()
     {
-        return view('docente.create');
+        $users = User::orderBy('apellido', 'asc')->pluck('apellido', 'id');
+        return view('docente.create')->with('users', $users);
     }
 
     /**
@@ -89,7 +93,11 @@ class DocenteController extends Controller
             abort(404);
         }
 
-        return view('docente.edit')->with('docente', $docente);
+        $users = User::orderBy('nombre', 'asc')->pluck('nombre', 'id');
+
+        return view('docente.edit')
+            ->with('docente', $docente)
+            ->with('users', $users);
     }
 
     /**

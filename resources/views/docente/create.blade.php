@@ -27,16 +27,18 @@
   <!-- Formulario -->
   {!! Form::open(['route' => 'docentes.store', 'autocomplete' => 'off', 'method' => 'POST', 'class' => 'form-horizontal']) !!}
     <div class="box-body">
-      <!-- Código -->
+
+       <!-- Id de Usuario -->
       <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
-        {!! Form::label('Id_Usuario', 'Id_Usuario', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('user_id', 'Apellido del Docente', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::text('user_id', old('user_id'), ['class' => 'form-control', 'placeholder' => 'Id de Usuario', 'required']) !!}
-            @if ($errors->has('user_id'))
-            <span class="help-block">{{ $errors->first('user_id') }}</span>
-            @endif
+          {!! Form::select('user_id', $users, old('user_id'), ['class' => 'form-control', 'placeholder' => '-- Seleccione un Apellido --', 'required']) !!}
+          @if ($errors->has('user_id'))
+          <span class="help-block">{{ $errors->first('user_id') }}</span>
+          @endif
         </div>
       </div>
+
       <!-- Nombre -->
       <div class="form-group{{ $errors->has('nip') ? ' has-error' : '' }}">
         {!! Form::label('nip', 'Nip', ['class' => 'col-sm-3 control-label']) !!}

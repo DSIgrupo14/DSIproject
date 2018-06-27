@@ -27,16 +27,18 @@
   <!-- Formulario -->
   {!! Form::open(['route' => ['docentes.update',$docente], 'autocomplete' => 'off', 'method' => 'PUT', 'class' => 'form-horizontal']) !!}
     <div class="box-body">
-      <!-- Código -->
+
+       <!-- ID del Usuario -->
       <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
-        {!! Form::label('Id_Usuario', 'Id_Usuario', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('User_id', 'Usuario', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::text('user_id', $docente->user_id, ['class' => 'form-control', 'placeholder' => 'Id de Usuario', 'required']) !!}
-            @if ($errors->has('user_id'))
-            <span class="help-block">{{ $errors->first('user_id') }}</span>
-            @endif
+          {!! Form::select('user_id', $users, $docente->user_id, ['class' => 'form-control', 'placeholder' => '-- Seleccione un Docente --', 'required']) !!}
+          @if ($errors->has('user_id'))
+          <span class="help-block">{{ $errors->first('user_id') }}</span>
+          @endif
         </div>
       </div>
+
       <!-- Nombre -->
       <div class="form-group{{ $errors->has('nip') ? ' has-error' : '' }}">
         {!! Form::label('nip', 'Nip', ['class' => 'col-sm-3 control-label']) !!}

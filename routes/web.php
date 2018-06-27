@@ -27,3 +27,6 @@ Route::resource('users', 'UserController');
 
 // Materias.
 Route::resource('materias', 'MateriaController');
+
+// Grados
+Route::resource('grados', 'GradoController');
