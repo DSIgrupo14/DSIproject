@@ -19,5 +19,8 @@ Route::get('/', function () {
 // Roles de usuario.
 Route::resource('roles', 'RolController');
 
+//ruta de docentes
+Route::resource('docentes', 'DocenteController');
+
 // Usuarios.
 Route::resource('users', 'UserController');

@@ -44,7 +44,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="../../index2.html" class="logo">
+    <a href="#" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini">
         <img src="{{ asset('img/sistema/logo_blanco.png') }}" class="logo-mini-tamanio" alt="Mini logo" />
@@ -115,24 +115,24 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">GESTIÓN ACADÉMICA</li>
-        <li class="treeview">
+        <li>
           <a href="#">
             <i class="fa fa-graduation-cap"></i> <span>Grados</span>
           </a>
         </li>
         <li class="header">PERSONAL</li>
-        <li class="treeview">
-          <a href="#">
+        <li>
+          <a href="{{ route('docentes.index') }}">
             <i class="fa fa-users"></i> <span>Docentes</span>
           </a>
         </li>
-        <li class="treeview">
+        <li>
           <a href="#">
             <i class="fa fa-clock-o"></i> <span>Jornada Laboral</span>
           </a>
         </li>
         <li class="header">ADMINISTRACIÓN</li>
-        <li class="treeview">
+        <li>
           <a href="#">
             <i class="fa fa-book"></i> <span>Reportes</span>
           </a>
