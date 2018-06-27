@@ -23,9 +23,22 @@ class RolRequest extends FormRequest
      */
     public function rules()
     {
+        $rules = array(
+            'codigo' => '',
+            'nombre' => 'required|max:100',
+        );
+
+        if ($this->route('role') == null) {
+            $rules['codigo'] .= 'required|max:5|unique:roles,codigo,' . $this->route('role');
+        }
+
+        return $rules;
+
+        /*
         return [
             'codigo' => 'required|max:5|unique:roles,codigo,' . $this->route('role'),
             'nombre' => 'required|max:100',
         ];
+        */
     }
 }

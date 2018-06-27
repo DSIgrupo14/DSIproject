@@ -74,7 +74,7 @@ class RolController extends Controller
     {
         $rol = Rol::find($id);
 
-        if (!$rol || $rol->estado = 0) {
+        if (!$rol || $rol->estado == 0) {
             abort(404);
         }
 
@@ -92,7 +92,7 @@ class RolController extends Controller
     {
         $rol = Rol::find($id);
 
-        if (!$rol || $rol->estado = 0) {
+        if (!$rol || $rol->estado == 0) {
             abort(404);
         }
         
@@ -118,7 +118,7 @@ class RolController extends Controller
     {
         $rol = Rol::find($id);
 
-        if (!$rol || $rol->estado = 0) {
+        if (!$rol || $rol->estado == 0) {
             abort(404);
         }
 
