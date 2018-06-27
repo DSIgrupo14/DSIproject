@@ -122,7 +122,7 @@
         </li>
         <li class="header">PERSONAL</li>
         <li class="treeview">
-          <a href="#">
+          <a href="{{ route('docentes.index') }}">
             <i class="fa fa-users"></i> <span>Docentes</span>
           </a>
         </li>
