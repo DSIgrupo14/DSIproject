@@ -75,7 +75,14 @@ class JornadaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $jornada = Jornada::find($id);
+
+
+        $docentes = Docente::orderBy('id', 'asc')->pluck('id', 'user_id');  
+
+        return view('jornadas.edit')
+            ->with('jornada', $jornada)
+            ->with('docentes',$docentes);
     }
 
     /**

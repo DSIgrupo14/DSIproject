@@ -43,7 +43,7 @@
       <div class="form-group{{ $errors->has('fecha') ? ' has-error' : '' }}">
         {!! Form::label('fecha', 'Fecha', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::text('fecha', old('fecha'), ['class' => 'form-control', 'placeholder' => 'Fecha de la Jornada Laboral', 'required']) !!}
+          {!! Form::date('fecha', old('fecha'), ['class' => 'form-control', 'placeholder' => 'Fecha de la Jornada Laboral', 'required']) !!}
             @if ($errors->has('fecha'))
             <span class="help-block">{{ $errors->first('fecha') }}</span>
             @endif
@@ -54,7 +54,7 @@
       <div class="form-group{{ $errors->has('hora_entrada') ? ' has-error' : '' }}">
         {!! Form::label('hora_entrada', 'Hora Entrada', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::text('hora_entrada', old('hora_entrada'), ['class' => 'form-control', 'placeholder' => 'Hora de Entrada ', 'required']) !!}
+          {!! Form::time('hora_entrada', old('hora_entrada'), ['class' => 'form-control', 'required','min'=>'6:00', 'max'=>'22:00','step'=>'3600']) !!}
             @if ($errors->has('hora_entrada'))
             <span class="help-block">{{ $errors->first('hora_entrada') }}</span>
             @endif
@@ -65,7 +65,7 @@
       <div class="form-group{{ $errors->has('hora_salida') ? ' has-error' : '' }}">
         {!! Form::label('hora_salida', 'Hora Salida', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::text('hora_salida', old('hora_salida'), ['class' => 'form-control', 'placeholder' => 'Hora de Salida ', 'required']) !!}
+          {!! Form::time('hora_salida', old('hora_salida'), ['class' => 'form-control', 'required','min'=>'6:00', 'max'=>'22:00','step'=>'3600']) !!}
             @if ($errors->has('hora_salida'))
             <span class="help-block">{{ $errors->first('hora_salida') }}</span>
             @endif
