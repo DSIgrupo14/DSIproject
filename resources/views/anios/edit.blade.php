@@ -1,10 +1,10 @@
 @extends('layouts.general')
 
-@section('titulo', 'CEAA | Crear Año Escolar')
+@section('titulo', 'CEAA | Editar Año Escolar')
 
-@section('encabezado', 'Año Escolar')
+@section('encabezado', 'Editar Año Escolar')
 
-@section('subencabezado', 'Registro')
+@section('subencabezado', 'Edición')
 
 @section('breadcrumb')
 <li>
@@ -25,14 +25,14 @@
     <h3 class="box-title">Registrar Año Escolar</h3>
   </div>
   <!-- Formulario -->
-  {!! Form::open(['route' => 'anios.store', 'autocomplete' => 'off', 'method' => 'POST', 'class' => 'form-horizontal']) !!}
+  {!! Form::open(['route' => ['anios.update', $anio], 'autocomplete' => 'off', 'method' => 'PUT', 'class' => 'form-horizontal']) !!}
     <div class="box-body">
 
       <!-- Año -->
       <div class="form-group{{ $errors->has('numero') ? ' has-error' : '' }}">
         {!! Form::label('numero', 'Año', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::text('numero', old('numero'), ['class' => 'form-control', 'placeholder' => 'Año Escolar', 'required']) !!}
+          {!! Form::text('numero', $anio->numero, ['class' => 'form-control', 'placeholder' => 'Año Escolar', 'required']) !!}
             @if ($errors->has('numero'))
             <span class="help-block">{{ $errors->first('numero') }}</span>
             @endif
@@ -59,7 +59,7 @@
         {!! Form::label('editable', 'Editable', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
          <select class="form-control" name="editable">
-          <option>--- Elige una Opcion ---</option>
+         <option>--- Elige una Opcion ---</option>
             <option>Editable</option>
             <option>No Editable</option>
           </select>

@@ -37,7 +37,6 @@
       <table class="table table-hover table-striped table-bordered table-quitar-margen">
         <thead>
           <tr>
-            <th>ID</th>
             <th>Año</th>
             <th>Activo</th>
             <th>Editable</th>
@@ -48,7 +47,6 @@
           @foreach($anios as $anio)
           @if($anio->estado!=0)
           <tr>
-            <td>{{ $anio->id }}</td>
             <td>{{ $anio->numero }} </td>
             <td>{{ $anio->activo }}</td>
             <td>{{ $anio->editable }}</td>

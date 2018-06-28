@@ -22,7 +22,7 @@ class AnioController extends Controller
                 ->where('numero', 'like', '%' . $query . '%')
                 ->orWhere('estado', 1)
                 ->where('activo', 'like', '%' . $query . '%')
-                ->orderBy('id', 'asc')
+                ->orderBy('numero', 'asc')
                 ->paginate(25);
         }
 
@@ -49,7 +49,26 @@ class AnioController extends Controller
      */
     public function store(Request $request)
     {
+
+        $activo=$_POST['activo'];
+        $editable=$_POST['editable'];
+
         $anio = new Anio($request->all());
+
+        if($activo!='Activo'){
+            $anio->activo =0;
+        } else{
+            $anio->activo=1;
+        }
+
+        
+
+        if($editable!='Editable'){
+            $anio->editable =0;
+        }else{
+            $anio->editable=1;
+        }
+
         $anio->estado = 1;
 
         $anio->save();
@@ -81,7 +100,14 @@ class AnioController extends Controller
      */
     public function edit($id)
     {
-        //
+        $anio = Anio::find($id);
+
+        if (!$anio || $anio->estado == 0) {
+            abort(404);
+        }
+
+        return view('anios.edit')
+            ->with('anio', $anio);
     }
 
     /**
@@ -93,7 +119,38 @@ class AnioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $activo=$_POST['activo'];
+        $editable=$_POST['editable'];
+
+        $anio = Anio::find($id);
+
+        if (!$anio || $anio->estado == 0) {
+            abort(404);
+        }
+
+        if($activo!='Activo'){
+            $anio->activo =0;
+        } else{
+            $anio->activo=1;
+        }
+
+
+        if($editable!='Editable'){
+            $anio->editable =0;
+        }else{
+            $anio->editable=1;
+        }
+
+        $anio->fill($request->all());
+        
+        $anio->save();
+
+        flash('
+            <h4>Edición de Año Escolar </h4>
+            <p>El Año Escolar <strong>' . $anio->numero . '</strong> se ha editado correctamente.</p>
+        ')->success()->important();
+
+        return redirect()->route('anios.index');
     }
 
     /**
