@@ -46,10 +46,10 @@
          <strong>DUI:</strong> {{ $user->dui }}
         </p>
         <p>
-          <strong>Registro:</strong> {{ \Carbon\Carbon::parse($user->created_at)->format('d/m/Y - h:i A') }}
+          <strong>Registro:</strong> {{ \Carbon\Carbon::parse($user->created_at)->format('d/m/Y - H:i:s') }}
         </p>
         <p>
-          <strong>Última modificación:</strong> {{ \Carbon\Carbon::parse($user->updated_at)->format('d/m/Y - h:i A') }}
+          <strong>Última modificación:</strong> {{ \Carbon\Carbon::parse($user->updated_at)->format('d/m/Y - H:i:s') }}
         </p>
       </div>
     </div>
