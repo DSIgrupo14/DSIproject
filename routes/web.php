@@ -30,3 +30,6 @@ Route::resource('materias', 'MateriaController');
 
 // Grados
 Route::resource('grados', 'GradoController');
+
+// Años
+Route::resource('anios','AnioController');
