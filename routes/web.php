@@ -27,3 +27,6 @@ Route::resource('users', 'UserController');
 
 // Materias.
 Route::resource('materias', 'MateriaController');
+
+//Nivel Educativo
+Route::resource('nivel', 'NivelEducativoController');

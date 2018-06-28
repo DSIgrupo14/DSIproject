@@ -146,7 +146,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="#"><i class="fa fa-circle-o"></i> Años escolares</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> Niveles educativos</a></li>
+            <li><a href=" {{ route('nivel.index')}} "><i class="fa fa-circle-o"></i> Niveles educativos</a></li>
             <li><a href=" {{ route('materias.index')}} "><i class="fa fa-circle-o"></i> Materias</a></li>
           </ul>
         </li>
