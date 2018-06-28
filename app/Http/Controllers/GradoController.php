@@ -44,8 +44,12 @@ class GradoController extends Controller
     {
         $niveles = Nivel::orderBy('nombre', 'asc')->pluck('nombre', 'id');
         $anios = Anio::orderBy('numero', 'asc')->pluck('numero', 'id');
-        $docentes = Docente::orderBy('id', 'asc')->pluck('id', 'user_id');        
-        return view('grados.create')->with('niveles', $niveles)->with('anios',$anios)->with('docentes',$docentes);
+        $docentes = Docente::orderBy('id', 'asc')->pluck('id', 'user_id');  
+
+        return view('grados.create')
+                ->with('niveles', $niveles)
+                ->with('anios',$anios)
+                ->with('docentes',$docentes);
     }
 
     /**
@@ -88,7 +92,21 @@ class GradoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $grado = Grado::find($id);
+
+        if (!$grado || $grado->estado == 0) {
+            abort(404);
+        }
+
+        $niveles = Nivel::orderBy('nombre', 'asc')->pluck('nombre', 'id');
+        $anios = Anio::orderBy('numero', 'asc')->pluck('numero', 'id');
+        $docentes = Docente::orderBy('id', 'asc')->pluck('id', 'user_id');  
+
+        return view('grados.edit')
+            ->with('grado', $grado)
+            ->with('niveles', $niveles)
+            ->with('anios',$anios)
+            ->with('docentes',$docentes);
     }
 
     /**
@@ -100,7 +118,22 @@ class GradoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+         $grado = Grado::find($id);
+
+        if (!$grado || $grado->estado == 0) {
+            abort(404);
+        }
+        
+        $grado->fill($request->all());
+        
+        $grado->save();
+
+        flash('
+            <h4>Edición de Docente</h4>
+            <p>El docente <strong>' . $grado->codigo . '</strong> se ha editado correctamente.</p>
+        ')->success()->important();
+
+        return redirect()->route('grados.index');
     }
 
     /**

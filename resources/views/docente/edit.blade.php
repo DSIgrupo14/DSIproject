@@ -32,7 +32,7 @@
       <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
         {!! Form::label('User_id', 'Usuario', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::select('user_id', $users, $docente->user_id, ['class' => 'form-control', 'placeholder' => '-- Seleccione un Docente --', 'required']) !!}
+          {!! Form::select('user_id', $users, $docente->user_id, ['class' => 'form-control', 'readonly', 'placeholder' => '-- Seleccione un Docente --', 'required']) !!}
           @if ($errors->has('user_id'))
           <span class="help-block">{{ $errors->first('user_id') }}</span>
           @endif

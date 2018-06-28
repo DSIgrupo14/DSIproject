@@ -1,10 +1,10 @@
 @extends('layouts.general')
 
-@section('titulo', 'CEAA | Crear Grado')
+@section('titulo', 'CEAA | Editar Grado')
 
-@section('encabezado', 'Crear Grado')
+@section('encabezado', 'Editar Grado')
 
-@section('subencabezado', 'Registro')
+@section('subencabezado', 'Editar')
 
 @section('breadcrumb')
 <li>
@@ -14,7 +14,7 @@
   <a href="{{ route('docentes.index') }}">Grado</a>
 </li>
 <li class="active">
-  Registrar Grado
+  Editar Grado
 </li>
 @endsection
 
@@ -22,17 +22,17 @@
 <!-- Box Primary -->
 <div class="box box-primary">
   <div class="box-header with-border">
-    <h3 class="box-title">Registrar Grado</h3>
+    <h3 class="box-title">Editar Grado</h3>
   </div>
   <!-- Formulario -->
-  {!! Form::open(['route' => 'grados.store', 'autocomplete' => 'off', 'method' => 'POST', 'class' => 'form-horizontal']) !!}
+ {!! Form::open(['route' => ['grados.update', $grado], 'autocomplete' => 'off', 'method' => 'PUT', 'files' => true, 'class' => 'form-horizontal']) !!}
     <div class="box-body">
 
       <!-- Nivel Academico -->
       <div class="form-group{{ $errors->has('nivel_id') ? ' has-error' : '' }}">
         {!! Form::label('nivel_id>', 'Nivel Academico', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::select('nivel_id', $niveles, old('nivel_id'), ['class' => 'form-control', 'placeholder' => '-- Seleccione un nivel academico --', 'required']) !!}
+          {!! Form::select('nivel_id', $niveles, $grado->nivel_id,  ['class' => 'form-control', 'readonly', 'placeholder' => '-- Seleccione un nivel academico --', 'required']) !!}
           @if ($errors->has('nivel_id'))
           <span class="help-block">{{ $errors->first('nivel_id') }}</span>
           @endif
@@ -43,7 +43,7 @@
       <div class="form-group{{ $errors->has('anio_id') ? ' has-error' : '' }}">
         {!! Form::label('numero>', 'Año Academico', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::select('anio_id', $anios, old('anio_id'), ['class' => 'form-control', 'placeholder' => '-- Seleccione un Año --', 'required']) !!}
+          {!! Form::select('anio_id', $anios, $grado->anio_id, ['class' => 'form-control', 'readonly', 'placeholder' => '-- Seleccione un Año --', 'required']) !!}
           @if ($errors->has('anio_id'))
           <span class="help-block">{{ $errors->first('anio_id') }}</span>
           @endif
@@ -54,7 +54,7 @@
       <div class="form-group{{ $errors->has('docente_id') ? ' has-error' : '' }}">
         {!! Form::label('nombre', 'Nombre del Docente', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::select('docente_id', $docentes, old('docente_id'), ['class' => 'form-control', 'placeholder' => '-- Seleccione un Docente --', 'required']) !!} 
+          {!! Form::select('docente_id', $docentes, $grado->docente_id, ['class' => 'form-control', 'readonly', 'placeholder' => '-- Seleccione un Docente --', 'required']) !!} 
           @if ($errors->has('docente_id'))
           <span class="help-block">{{ $errors->first('docente_id') }}</span>
           @endif
@@ -65,7 +65,7 @@
       <div class="form-group{{ $errors->has('codigo') ? ' has-error' : '' }}">
         {!! Form::label('Codigo', 'Codigo', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::text('codigo', old('codigo'), ['class' => 'form-control', 'placeholder' => 'Codigo del Grado', 'required']) !!}
+          {!! Form::text('codigo', $grado->codigo, ['class' => 'form-control', 'placeholder' => 'Codigo del Grado', 'required']) !!}
             @if ($errors->has('codigo'))
             <span class="help-block">{{ $errors->first('codigo') }}</span>
             @endif
@@ -76,7 +76,7 @@
       <div class="form-group{{ $errors->has('seccion') ? ' has-error' : '' }}">
         {!! Form::label('Seccion', 'Seccion', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::text('seccion', old('seccion'), ['class' => 'form-control', 'placeholder' => 'Seccion ', 'required']) !!}
+          {!! Form::text('seccion', $grado->seccion, ['class' => 'form-control', 'placeholder' => 'Seccion ', 'required']) !!}
             @if ($errors->has('seccion'))
             <span class="help-block">{{ $errors->first('seccion') }}</span>
             @endif
