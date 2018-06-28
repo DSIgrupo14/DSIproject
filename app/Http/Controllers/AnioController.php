@@ -38,7 +38,7 @@ class AnioController extends Controller
      */
     public function create()
     {
-        //
+        return view('anios.create');
     }
 
     /**
@@ -49,7 +49,17 @@ class AnioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $anio = new Anio($request->all());
+        $anio->estado = 1;
+
+        $anio->save();
+
+        flash('
+            <h4>Registro de Año Escolar</h4>
+            <p>El año Escolar <strong>' . $anio->numero . '</strong> se ha registrado correctamente.</p>
+        ')->success()->important();
+
+        return redirect()->route('anios.index');
     }
 
     /**
