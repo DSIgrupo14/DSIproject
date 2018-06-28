@@ -1,17 +1,17 @@
 @extends('layouts.general')
 
-@section('titulo', 'CEAA | Grados')
+@section('titulo', 'CEAA | Jornada Laboral')
 
-@section('encabezado', 'Grados')
+@section('encabezado', 'Jornada Laboral')
 
 @section('subencabezado', 'Gestión')
 
 @section('breadcrumb')
 <li>
-  <i class="fa fa-users"></i> Gestión Académica
+  <i class="fa fa-users"></i> Personal
 </li>
 <li class="active">
-  Grados
+  Jornada Laboral
 </li>
 @endsection
 
@@ -19,63 +19,61 @@
 <!-- Box Primary -->
 <div class="box box-primary">
   <div class="box-header with-border">
-    <h3 class="box-title">Gestión de Grados</h3>
+    <h3 class="box-title">Gestión de Jornada Laboral</h3>
   </div>
   <div class="box-body">
     <div class="row">
       <div class="col-sm-6">
-        <a href="{{ route('grados.create') }}" class="btn btn-primary btn-flat">Registrar Grado</a>
+        <a href="{{ route('jornadas.create') }}" class="btn btn-primary btn-flat">Registrar Jornada Laboral</a>
       </div>
      <div class="col-sm-6">
         <!-- Barra de búsqueda -->
-        @include('grados.search')
+
       </div>
     </div>
-  	<!-- Listado de grados -->
-  	@if ($grados->count() > 0)
+  	<!-- Listado de jornadas -->
+  	@if ($jornadas->count() > 0)
   	<div class="table-responsive">
       <table class="table table-hover table-striped table-bordered table-quitar-margen">
         <thead>
           <tr>
             <th>ID</th>
-            <th>Nivel</th>
-            <th>Año</th>
             <th>Docente</th>
-            <th>Codigo</th>
-            <th>Seccion</th>
+            <th>Fecha</th>
+            <th>Hora Entrada</th>
+            <th>Hora Salida</th>
             <th>Opciones</th>
           </tr>
         </thead>
         <tbody>
-          @foreach($grados as $grado)
+          @foreach($jornadas as $jornada)
           <tr>
-            <td>{{ $grado->id }}</td>
-            <td>{{ $grado->nivel->nombre }}</td>
-            <td>{{ $grado->anio->numero }}</td>
-            <td>{{ $grado->docente->user->nombre }}
-                {{ $grado->docente->user->apellido }}</td>
-            <td>{{ $grado->codigo }}</td>
-            <td>{{ $grado->seccion }}</td>
+            <td>{{ $jornada->id }}</td>
+            <td>{{ $jornada->docente->user->nombre }} 
+             {{ $jornada->docente->user->apellido }} </td>
+            <td>{{ $jornada->fecha }}</td>
+            <td>{{ $jornada->hora_entrada }}</td>
+            <td>{{ $jornada->hora_salida }}</td>
             <td>
-              <a href="{{ route('grados.edit', $grado->id) }}" class="btn btn-default btn-flat">
+              <a href="{{ route('jornadas.edit', $jornada->id) }}" class="btn btn-default btn-flat">
                 <i class="fa fa-wrench" aria-hidden="true"></i>
               </a>
-              <a href="" data-target="#modal-delete-{{ $grado->id }}" data-toggle="modal" class="btn btn-danger btn-flat">
+              <a href="" data-target="#modal-delete-{{ $jornada->id }}" data-toggle="modal" class="btn btn-danger btn-flat">
                 <i class="fa fa-trash" aria-hidden="true"></i>
               </a>
             </td>
           </tr>
           <!-- Modal para dar de baja -->
-          @include('grados.modal')
+          @include('jornadas.modal')
           @endforeach
         </tbody>
       </table>
     </div>
-    <!-- Si no hay grados-->
+    <!-- Si no hay jornadas -->
     @else
       <div class="text-center">
         <i class="fa fa-search fa-5x" aria-hidden="true"></i>
-        <h4>No se encontraron docentes</h4>
+        <h4>No se encontraron jornadas</h4>
       </div>
     @endif
   </div>
@@ -83,7 +81,7 @@
   <div class="box-footer">
     <div class="pull-right">
     	<!-- Paginación -->
-      {!! $grados->render() !!}
+      {!! $jornadas->render() !!}
     </div>
   </div>
   {!! Form::close() !!}

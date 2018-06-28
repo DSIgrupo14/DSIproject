@@ -127,7 +127,7 @@
           </a>
         </li>
         <li>
-          <a href="#">
+          <a href="{{ route('jornadas.index')}}">
             <i class="fa fa-clock-o"></i> <span>Jornada Laboral</span>
           </a>
         </li>
