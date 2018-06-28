@@ -24,3 +24,6 @@ Route::resource('docentes', 'DocenteController');
 
 // Usuarios.
 Route::resource('users', 'UserController');
+
+// Jornadas.
+Route::resource('jornadas', 'JornadaController');
