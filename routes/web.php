@@ -37,5 +37,3 @@ Route::resource('grados', 'GradoController');
 // Años
 Route::resource('anios','AnioController');
 
-// Jornadas
-Route::resource('jornadas','JornadaController');
