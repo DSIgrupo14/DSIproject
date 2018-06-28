@@ -1,17 +1,17 @@
 @extends('layouts.general')
 
-@section('titulo', 'CEAA | Docentes')
+@section('titulo', 'CEAA | Años Escolares')
 
-@section('encabezado', 'Docentes')
+@section('encabezado', 'Años Escolares')
 
 @section('subencabezado', 'Gestión')
 
 @section('breadcrumb')
 <li>
-  <i class="fa fa-users"></i> Personal
+  <i class="fa fa-users"></i> Configuración
 </li>
 <li class="active">
-  Docentes
+  Años Escolares
 </li>
 @endsection
 
@@ -19,53 +19,48 @@
 <!-- Box Primary -->
 <div class="box box-primary">
   <div class="box-header with-border">
-    <h3 class="box-title">Gestión de Docentes</h3>
+    <h3 class="box-title">Gestión de Años Escolares</h3>
   </div>
   <div class="box-body">
     <div class="row">
       <div class="col-sm-6">
-        <a href="{{ route('docentes.create') }}" class="btn btn-primary btn-flat">Registrar Docente</a>
+        <a href="{{ route('anios.create') }}" class="btn btn-primary btn-flat">Registrar Año Escolar</a>
       </div>
      <div class="col-sm-6">
         <!-- Barra de búsqueda -->
-        @include('docente.search')
+        @include('anios.search')
       </div>
     </div>
-  	<!-- Listado de docentes -->
-  	@if ($docentes->count() > 0)
-  	<div class="table-responsive">
+    <!-- Listado de docentes -->
+    @if ($anios->count() > 0)
+    <div class="table-responsive">
       <table class="table table-hover table-striped table-bordered table-quitar-margen">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>NIP</th>
-            <th>Especialidad</th>
-            <th>Imagen</th>
+            <th>Año</th>
+            <th>Activo</th>
+            <th>Editable</th>
             <th>Opciones</th>
           </tr>
         </thead>
         <tbody>
-          @foreach($docentes as $docente)
-          @if($docente->estado!=0)
+          @foreach($anios as $anio)
+          @if($anio->estado!=0)
           <tr>
-            <td>{{ $docente->id }}</td>
-            <td>{{ $docente->user->nombre }}
-                 {{$docente->user->apellido}}                           </td>
-            <td>{{ $docente->nip }}</td>
-            <td>{{ $docente->especialidad }}</td>
-            <td>{{ $docente->imagen }}</td>
+            <td>{{ $anio->numero }} </td>
+            <td>{{ $anio->activo }}</td>
+            <td>{{ $anio->editable }}</td>
             <td>
-              <a href="{{ route('docentes.edit', $docente->id) }}" class="btn btn-default btn-flat">
+              <a href="{{ route('anios.edit', $anio->id) }}" class="btn btn-default btn-flat">
                 <i class="fa fa-wrench" aria-hidden="true"></i>
               </a>
-              <a href="" data-target="#modal-delete-{{ $docente->id }}" data-toggle="modal" class="btn btn-danger btn-flat">
+              <a href="" data-target="#modal-delete-{{ $anio->id }}" data-toggle="modal" class="btn btn-danger btn-flat">
                 <i class="fa fa-trash" aria-hidden="true"></i>
               </a>
             </td>
           </tr>
           <!-- Modal para dar de baja -->
-          @include('docente.modal')
+          @include('anios.modal')
           @endif
           @endforeach
         </tbody>
@@ -75,15 +70,15 @@
     @else
       <div class="text-center">
         <i class="fa fa-search fa-5x" aria-hidden="true"></i>
-        <h4>No se encontraron docentes</h4>
+        <h4>No se encontraron Años Escolares</h4>
       </div>
     @endif
   </div>
   <!-- /.box-body -->
   <div class="box-footer">
     <div class="pull-right">
-    	<!-- Paginación -->
-      {!! $docentes->render() !!}
+      <!-- Paginación -->
+      {!! $anios->render() !!}
     </div>
   </div>
   {!! Form::close() !!}

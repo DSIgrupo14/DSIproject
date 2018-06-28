@@ -26,7 +26,11 @@ Route::resource('docentes', 'DocenteController');
 Route::resource('users', 'UserController');
 
 // Materias.
-Route::resource('materias', 'MateriaController');
-
+Route::resource('materias', 'MateriaController'
 //Nivel Educativo
 Route::resource('nivel', 'NivelEducativoController');
+// Grados
+Route::resource('grados', 'GradoController');
+
+// Años
+Route::resource('anios','AnioController');

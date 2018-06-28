@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
@@ -116,7 +116,7 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">GESTIÓN ACADÉMICA</li>
         <li>
-          <a href="#">
+          <a href="{{ route('grados.index') }}">
             <i class="fa fa-graduation-cap"></i> <span>Grados</span>
           </a>
         </li>
@@ -145,8 +145,12 @@
             </span>
           </a>
           <ul class="treeview-menu">
+
             <li><a href="#"><i class="fa fa-circle-o"></i> Años escolares</a></li>
             <li><a href=" {{ route('nivel.index')}} "><i class="fa fa-circle-o"></i> Niveles educativos</a></li>
+
+            <li><a href=" {{ route('anios.index') }}"><i class="fa fa-circle-o"></i> Años escolares</a></li>
+          
             <li><a href=" {{ route('materias.index')}} "><i class="fa fa-circle-o"></i> Materias</a></li>
           </ul>
         </li>

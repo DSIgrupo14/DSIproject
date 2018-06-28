@@ -1,17 +1,17 @@
 @extends('layouts.general')
 
-@section('titulo', 'CEAA | Docentes')
+@section('titulo', 'CEAA | Grados')
 
-@section('encabezado', 'Docentes')
+@section('encabezado', 'Grados')
 
 @section('subencabezado', 'Gestión')
 
 @section('breadcrumb')
 <li>
-  <i class="fa fa-users"></i> Personal
+  <i class="fa fa-users"></i> Gestión Académica
 </li>
 <li class="active">
-  Docentes
+  Grados
 </li>
 @endsection
 
@@ -19,59 +19,58 @@
 <!-- Box Primary -->
 <div class="box box-primary">
   <div class="box-header with-border">
-    <h3 class="box-title">Gestión de Docentes</h3>
+    <h3 class="box-title">Gestión de Grados</h3>
   </div>
   <div class="box-body">
     <div class="row">
       <div class="col-sm-6">
-        <a href="{{ route('docentes.create') }}" class="btn btn-primary btn-flat">Registrar Docente</a>
+        <a href="{{ route('grados.create') }}" class="btn btn-primary btn-flat">Registrar Grado</a>
       </div>
      <div class="col-sm-6">
         <!-- Barra de búsqueda -->
-        @include('docente.search')
+        @include('grados.search')
       </div>
     </div>
-  	<!-- Listado de docentes -->
-  	@if ($docentes->count() > 0)
+  	<!-- Listado de grados -->
+  	@if ($grados->count() > 0)
   	<div class="table-responsive">
       <table class="table table-hover table-striped table-bordered table-quitar-margen">
         <thead>
           <tr>
             <th>ID</th>
-            <th>Nombre</th>
-            <th>NIP</th>
-            <th>Especialidad</th>
-            <th>Imagen</th>
+            <th>Nivel</th>
+            <th>Año</th>
+            <th>Docente</th>
+            <th>Codigo</th>
+            <th>Seccion</th>
             <th>Opciones</th>
           </tr>
         </thead>
         <tbody>
-          @foreach($docentes as $docente)
-          @if($docente->estado!=0)
+          @foreach($grados as $grado)
           <tr>
-            <td>{{ $docente->id }}</td>
-            <td>{{ $docente->user->nombre }}
-                 {{$docente->user->apellido}}                           </td>
-            <td>{{ $docente->nip }}</td>
-            <td>{{ $docente->especialidad }}</td>
-            <td>{{ $docente->imagen }}</td>
+            <td>{{ $grado->id }}</td>
+            <td>{{ $grado->nivel->nombre }}</td>
+            <td>{{ $grado->anio->numero }}</td>
+            <td>{{ $grado->docente->user->nombre }}</td>
+            <td>{{ $grado->codigo }}</td>
+            <td>{{ $grado->seccion }}</td>
             <td>
-              <a href="{{ route('docentes.edit', $docente->id) }}" class="btn btn-default btn-flat">
+              <a href="{{ route('grados.edit', $grado->id) }}" class="btn btn-default btn-flat">
                 <i class="fa fa-wrench" aria-hidden="true"></i>
               </a>
-              <a href="" data-target="#modal-delete-{{ $docente->id }}" data-toggle="modal" class="btn btn-danger btn-flat">
+              <a href="" data-target="#modal-delete-{{ $grado->id }}" data-toggle="modal" class="btn btn-danger btn-flat">
                 <i class="fa fa-trash" aria-hidden="true"></i>
               </a>
             </td>
           </tr>
           <!-- Modal para dar de baja -->
-          @include('docente.modal')
-          @endif
+          @include('grados.modal')
           @endforeach
         </tbody>
       </table>
     </div>
-    <!-- Si no hay docentes -->
+    <!-- Si no hay grados-->
     @else
       <div class="text-center">
         <i class="fa fa-search fa-5x" aria-hidden="true"></i>
@@ -83,7 +82,7 @@
   <div class="box-footer">
     <div class="pull-right">
     	<!-- Paginación -->
-      {!! $docentes->render() !!}
+      {!! $grados->render() !!}
     </div>
   </div>
   {!! Form::close() !!}
