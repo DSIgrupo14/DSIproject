@@ -8,6 +8,8 @@ use DSIproject\Grados;
 use DSIproject\User;
 use Illuminate\Http\Request;
 use Laracasts\Flash\Flash;
+use Barryvdh\DomPDF\Facade as PDF;
+
 class DocenteController extends Controller
 {
     /**
@@ -151,5 +153,15 @@ class DocenteController extends Controller
         ')->error()->important();
 
         return redirect()->route('docentes.index');
+    }
+
+    public function pdf()
+    {        
+
+        $docentes = Docente::all(); 
+
+        $pdf = PDF::loadView('docente.pdf', compact('docentes'));
+
+        return $pdf->download('docentes.pdf');
     }
 }

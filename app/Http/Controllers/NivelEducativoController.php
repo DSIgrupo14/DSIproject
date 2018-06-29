@@ -5,7 +5,8 @@ namespace DSIproject\Http\Controllers;
 use Illuminate\Http\Request;
 use DSIproject\Nivel;
 use Laracasts\Flash\Flash;
-//use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade as PDF;
+
 class NivelEducativoController extends Controller
 {
     //
@@ -148,5 +149,16 @@ class NivelEducativoController extends Controller
         ')->error()->important();
 
         return redirect()->route('nivel.index');
+    }
+
+
+    public function pdf()
+    {        
+
+        $niveles = Nivel::all(); 
+
+        $pdf = PDF::loadView('nivel.pdf', compact('niveles'));
+
+        return $pdf->download('niveles.pdf');
     }
 }

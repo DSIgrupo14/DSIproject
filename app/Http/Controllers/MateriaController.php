@@ -5,6 +5,7 @@ namespace DSIproject\Http\Controllers;
 use DSIproject\Materia;
 use Laracasts\Flash\Flash;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class MateriaController extends Controller
 {
@@ -141,5 +142,16 @@ class MateriaController extends Controller
         ')->error()->important();
 
         return redirect()->route('materias.index');
+    }
+
+
+    public function pdf()
+    {        
+
+        $materias = Materia::all(); 
+
+        $pdf = PDF::loadView('materias.pdf', compact('materias'));
+
+        return $pdf->download('materias.pdf');
     }
 }

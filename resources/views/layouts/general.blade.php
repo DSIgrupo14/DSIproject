@@ -18,6 +18,7 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="{{ asset('css/skin-blue.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -35,6 +36,8 @@
   <!-- Favicon -->
   <link rel="favicon" href="{{ asset('img/sistema/favicon.png') }}" />
   <link rel="shortcut icon" href="{{ asset('img/sistema/favicon.ico') }}" />
+
+
 </head>
 <!-- ADD THE CLASS fixed TO GET A FIXED HEADER AND SIDEBAR LAYOUT -->
 <!-- the fixed layout is not compatible with sidebar-mini -->
@@ -133,7 +136,7 @@
         </li>
         <li class="header">ADMINISTRACIÓN</li>
         <li>
-          <a href="#">
+          <a href="{{ route('reportes') }}">
             <i class="fa fa-book"></i> <span>Reportes</span>
           </a>
         </li>

@@ -37,3 +37,19 @@ Route::resource('grados', 'GradoController');
 // Años
 Route::resource('anios','AnioController');
 
+// Vista de la Pagina Reportes
+Route::get('reportes', function(){
+	return view('pdf.principal');
+})->name('reportes');
+
+// Para descargar PDF de Grados
+Route::get('descargar/grados', 'GradoController@pdf')->name('grados.pdf');
+
+// Para descargar PDF de Docentes
+Route::get('descargar/docentes', 'DocenteController@pdf')->name('docentes.pdf');
+
+// Para descargar PDF de niveles
+Route::get('descargar/niveles', 'NivelEducativoController@pdf')->name('nivel.pdf');
+
+// Para descargar PDF de MAterias
+Route::get('descargar/materias', 'MateriaController@pdf')->name('materias.pdf');

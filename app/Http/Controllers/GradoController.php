@@ -9,6 +9,7 @@ use DSIproject\Anio;
 use DSIproject\Docente;
 use DSIproject\User;
 use Laracasts\Flash\Flash;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class GradoController extends Controller
 {
@@ -160,5 +161,17 @@ class GradoController extends Controller
         ')->error()->important();
 
         return redirect()->route('grados.index');
+    }
+
+
+
+    public function pdf()
+    {        
+
+        $grados = Grado::all(); 
+
+        $pdf = PDF::loadView('grados.pdf', compact('grados'));
+
+        return $pdf->download('grados.pdf');
     }
 }

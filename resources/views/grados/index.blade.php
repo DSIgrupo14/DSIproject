@@ -38,10 +38,10 @@
         <thead>
           <tr>
             <th>ID</th>
+            <th>Codigo</th>
             <th>Nivel</th>
             <th>Año</th>
             <th>Docente</th>
-            <th>Codigo</th>
             <th>Seccion</th>
             <th>Opciones</th>
           </tr>
@@ -50,11 +50,11 @@
           @foreach($grados as $grado)
           <tr>
             <td>{{ $grado->id }}</td>
+            <td>{{ $grado->codigo }}</td>
             <td>{{ $grado->nivel->nombre }}</td>
             <td>{{ $grado->anio->numero }}</td>
             <td>{{ $grado->docente->user->nombre }}
                 {{ $grado->docente->user->apellido }}</td>
-            <td>{{ $grado->codigo }}</td>
             <td>{{ $grado->seccion }}</td>
             <td>
               <a href="{{ route('grados.edit', $grado->id) }}" class="btn btn-default btn-flat">
