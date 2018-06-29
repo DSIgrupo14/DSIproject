@@ -13,6 +13,8 @@
   <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
   <!-- Ionicons -->
   <link rel="stylesheet" href="{{ asset('css/ionicons.min.css') }}">
+  <!-- Agregar estilos -->
+  @yield('estilos')
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('css/AdminLTE.min.css') }}">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -31,8 +33,6 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <!-- Mis estilos -->
   <link rel="stylesheet" href="{{ asset('css/mis-estilos.css') }}">
-  <!-- Agregar estilos -->
-  @yield('estilos')
   <!-- Favicon -->
   <link rel="favicon" href="{{ asset('img/sistema/favicon.png') }}" />
   <link rel="shortcut icon" href="{{ asset('img/sistema/favicon.ico') }}" />

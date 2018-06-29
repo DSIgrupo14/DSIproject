@@ -2,10 +2,12 @@
 
 namespace DSIproject\Http\Controllers;
 
-use Illuminate\Http\Request;
-use DSIproject\Nivel;
 use Laracasts\Flash\Flash;
 use Barryvdh\DomPDF\Facade as PDF;
+use DSIproject\Http\Requests\NivelRequest;
+use DSIproject\Materia;
+use DSIproject\Nivel;
+use Illuminate\Http\Request;
 
 class NivelEducativoController extends Controller
 {
@@ -46,7 +48,9 @@ class NivelEducativoController extends Controller
      */
     public function create()
     {
-        return view('nivel.create');
+        $materias = Materia::orderBy('nombre', 'asc')->pluck('nombre', 'id');
+
+        return view('nivel.create')->with('materias', $materias);
     }
 
     /**
@@ -55,12 +59,22 @@ class NivelEducativoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NivelRequest $request)
     {
         $nivel = new Nivel($request->all());
+
         $nivel->estado = 1;
 
+        if ($request->orientador_materia == 1) {
+            $nivel->orientador_materia = 1;
+        } else {
+            $nivel->orientador_materia = 0;
+        }
+
         $nivel->save();
+
+        // Almacenamiento de materias impartidas en el nivel educativo.
+        $nivel->materias()->sync($request->materias);
 
         flash('
             <h4>Registro de Nivel Educativo</h4>
@@ -78,7 +92,13 @@ class NivelEducativoController extends Controller
      */
     public function show($id)
     {
-        //
+        $nivel = Nivel::find($id);
+
+        if (!$nivel || $nivel->estado == 0) {
+            abort(404);
+        }
+
+        return view('nivel.show')->with('nivel', $nivel);
     }
 
     /**
@@ -95,7 +115,14 @@ class NivelEducativoController extends Controller
             abort(404);
         }
 
-        return view('nivel.edit')->with('nivel', $nivel);
+        $materias = Materia::orderBy('nombre', 'asc')->pluck('nombre', 'id');
+
+        $mis_materias = $nivel->materias->pluck('id')->toArray();
+
+        return view('nivel.edit')
+            ->with('nivel', $nivel)
+            ->with('materias', $materias)
+            ->with('mis_materias', $mis_materias);
     }
 
     /**
@@ -105,7 +132,7 @@ class NivelEducativoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(NivelRequest $request, $id)
     {
          $nivel = nivel::find($id);
 
@@ -114,12 +141,21 @@ class NivelEducativoController extends Controller
         }
         
         $nivel->fill($request->all());
+
+        if ($request->orientador_materia == 1) {
+            $nivel->orientador_materia = 1;
+        } else {
+            $nivel->orientador_materia = 0;
+        }
         
         $nivel->save();
 
+        // Almacenamiento de materias impartidas en el nivel educativo.
+        $nivel->materias()->sync($request->materias);
+
         flash('
             <h4>Edición de Nivel</h4>
-            <p>Nivel Educativo <strong>' . $nivel->id . '</strong> se ha editado correctamente.</p>
+            <p>Nivel Educativo <strong>' . $nivel->nombre . '</strong> se ha editado correctamente.</p>
         ')->success()->important();
 
         return redirect()->route('nivel.index');

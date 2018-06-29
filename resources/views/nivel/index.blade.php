@@ -8,7 +8,7 @@
 
 @section('breadcrumb')
 <li>
-  <i class="fa fa-users"></i> Configuración
+  <i class="fa fa-cog"></i> Configuración
 </li>
 <li class="active">
   Nivel Educativo
@@ -31,7 +31,7 @@
         @include('nivel.search')
       </div>
     </div>
-    <!-- Listado de docentes -->
+    <!-- Listado de niveles educativos -->
     @if ($nivel->count() > 0)
     <div class="table-responsive">
       <table class="table table-hover table-striped table-bordered table-quitar-margen">
@@ -49,6 +49,9 @@
             <td>{{ $niveles->nombre }}</td>
             <td>{{ $niveles->orientador_materia }}</td>
             <td>
+              <a href="{{ route('nivel.show', $niveles->id) }}" class="btn btn-default btn-flat">
+                <i class="fa fa-eye" aria-hidden="true"></i>
+              </a>
               <a href="{{ route('nivel.edit', $niveles->id) }}" class="btn btn-default btn-flat">
                 <i class="fa fa-wrench" aria-hidden="true"></i>
               </a>
