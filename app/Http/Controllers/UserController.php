@@ -56,7 +56,7 @@ class UserController extends Controller
      * @param  \DSIproject\Http\Requests\UserRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         // Almacenamiento de la imagen.
         if ($request->file('imagen')) {

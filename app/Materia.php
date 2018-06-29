@@ -33,4 +33,28 @@ class Materia extends Model
     {
         return $this->belongsToMany('DSIproject\Nivel')->withTimestamps();
     }
+
+    /**
+     * Obtiene los grados donde se imparte la materia.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function grados()
+    {
+        return $this->belongsToMany('DSIproject\Grado', 'grado_materia')
+            ->withPivot('docente_id')
+            ->withTimestamps();
+    }
+
+    /**
+     * Obtiene los docentes que imparten la materia.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function docentes()
+    {
+        return $this->belongsToMany('DSIproject\Docente', 'grado_materia')
+            ->withPivot('grado_id')
+            ->withTimestamps();
+    }
 }

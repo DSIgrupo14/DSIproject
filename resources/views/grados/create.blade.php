@@ -8,9 +8,7 @@
 
 @section('breadcrumb')
 <li>
-  <i class="fa fa-users"></i> Gestión Académica
-</li>
-<li>
+  <i class="fa fa-graduation-cap"></i>
   <a href="{{ route('docentes.index') }}">Grado</a>
 </li>
 <li class="active">
@@ -28,11 +26,11 @@
   {!! Form::open(['route' => 'grados.store', 'autocomplete' => 'off', 'method' => 'POST', 'class' => 'form-horizontal']) !!}
     <div class="box-body">
 
-      <!-- Nivel Academico -->
+      <!-- Nivel Académico -->
       <div class="form-group{{ $errors->has('nivel_id') ? ' has-error' : '' }}">
-        {!! Form::label('nivel_id>', 'Nivel Academico', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('nivel_id>', 'Nivel Académico', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::select('nivel_id', $niveles, old('nivel_id'), ['class' => 'form-control', 'placeholder' => '-- Seleccione un nivel academico --', 'required']) !!}
+          {!! Form::select('nivel_id', $niveles, old('nivel_id'), ['class' => 'form-control', 'placeholder' => '-- Seleccione un nivel académico --', 'required']) !!}
           @if ($errors->has('nivel_id'))
           <span class="help-block">{{ $errors->first('nivel_id') }}</span>
           @endif
@@ -41,7 +39,7 @@
 
      <!-- Anio -->
       <div class="form-group{{ $errors->has('anio_id') ? ' has-error' : '' }}">
-        {!! Form::label('numero>', 'Año Academico', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('numero>', 'Año Académico', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::select('anio_id', $anios, old('anio_id'), ['class' => 'form-control', 'placeholder' => '-- Seleccione un Año --', 'required']) !!}
           @if ($errors->has('anio_id'))
@@ -50,40 +48,28 @@
         </div>
       </div>
 
-      <!-- Docente -->
-      <div class="form-group{{ $errors->has('docente_id') ? ' has-error' : '' }}">
-        {!! Form::label('nombre', 'Nombre del Docente', ['class' => 'col-sm-3 control-label']) !!}
-        <div class="col-sm-6">
-          {!! Form::select('docente_id', $docentes, old('docente_id'), ['class' => 'form-control', 'placeholder' => '-- Seleccione un Docente --', 'required']) !!} 
-          @if ($errors->has('docente_id'))
-          <span class="help-block">{{ $errors->first('docente_id') }}</span>
-          @endif
-        </div>
-      </div>
-
-      <!-- Código -->
-      <div class="form-group{{ $errors->has('codigo') ? ' has-error' : '' }}">
-        {!! Form::label('Codigo', 'Codigo', ['class' => 'col-sm-3 control-label']) !!}
-        <div class="col-sm-6">
-          {!! Form::text('codigo', old('codigo'), ['class' => 'form-control', 'placeholder' => 'Codigo del Grado', 'required']) !!}
-            @if ($errors->has('codigo'))
-            <span class="help-block">{{ $errors->first('codigo') }}</span>
-            @endif
-        </div>
-      </div>
-
-      <!-- Nombre -->
+      <!-- Sección -->
       <div class="form-group{{ $errors->has('seccion') ? ' has-error' : '' }}">
-        {!! Form::label('Seccion', 'Seccion', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('seccion', 'Sección', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::text('seccion', old('seccion'), ['class' => 'form-control', 'placeholder' => 'Seccion ', 'required']) !!}
+          {!! Form::text('seccion', old('seccion'), ['class' => 'form-control', 'placeholder' => 'Sección ']) !!}
             @if ($errors->has('seccion'))
             <span class="help-block">{{ $errors->first('seccion') }}</span>
             @endif
         </div>
       </div>
-    </div>
 
+      <!-- Docente orientador -->
+      <div class="form-group{{ $errors->has('docente_id') ? ' has-error' : '' }}">
+        {!! Form::label('docente_id', 'Docente Orientador', ['class' => 'col-sm-3 control-label']) !!}
+        <div class="col-sm-6">
+          {!! Form::select('docente_id', $docentes, old('docente_id'), ['class' => 'form-control', 'placeholder' => '-- Seleccione un docente orientador --', 'required']) !!}
+          @if ($errors->has('docente_id'))
+          <span class="help-block">{{ $errors->first('docente_id') }}</span>
+          @endif
+        </div>
+      </div>
+    </div>
     <!-- /.box-body -->
     <div class="box-footer">
       <div class="col-sm-9">

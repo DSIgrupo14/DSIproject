@@ -109,7 +109,7 @@
     <div class="box-footer">
       <div class="col-sm-9">
         <div class="pull-right">
-          <a href="{{ route('roles.index') }}" class="btn btn-default btn-flat">Cancelar</a>
+          <a href="{{ route('users.index') }}" class="btn btn-default btn-flat">Cancelar</a>
           {!! Form::submit('Guardar', ['class' => 'btn btn-primary btn-flat']) !!}
         </div>
       </div>

@@ -2,6 +2,7 @@
 
 namespace DSIproject\Http\Requests;
 
+use DSIproject\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserRequest extends FormRequest
@@ -23,6 +24,8 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
+        $user = User::find($this->route('user'));
+
         $rules = array(
             'rol_id'   => 'required',
             'nombre'   => 'required|max:100',
@@ -33,7 +36,7 @@ class UserRequest extends FormRequest
             'imagen'   => 'image|mimes:jpeg,png,bmp|max:2048',
         );
 
-        if ($this->route('user') == null) {
+        if ($user == null) {
             $rules['password'] .= '|required|min:6';
         }
 

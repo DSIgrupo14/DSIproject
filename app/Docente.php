@@ -55,4 +55,38 @@ class Docente extends Model
     {
         return $this->hasMany('DSIproject\Grado');
     }
+
+    /**
+     * Obtiene los grados donde imparte clases de alguna materia el docente.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function grados2()
+    {
+        return $this->belongsToMany('DSIproject\Grado', 'grado_materia')
+            ->withPivot('materia_id')
+            ->withTimestamps();
+    }
+
+    /**
+     * Obtiene las materias que imparte el docente.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function materias()
+    {
+        return $this->belongsToMany('DSIproject\Materia', 'grado_materia')
+            ->withPivot('grado_id')
+            ->withTimestamps();
+    }
+
+    /**
+     * Obtiene el nombre y apellido del docente.
+     *
+     * @return string
+     */
+    public function getNombreAndApellidoAttribute()
+    {
+        return $this->user->nombre . ' ' . $this->user->apellido;
+    }
 }
