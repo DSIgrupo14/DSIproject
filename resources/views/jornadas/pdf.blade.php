@@ -14,7 +14,7 @@ Santiago Nonualco, La Paz<br>
 Codigo 12053 <br>
 </h2>
 <center>
-<img src=" {{ asset('img/img.jpg')}} ">
+<img src=" #" style="width: 100px; height:100px;" >
 </center>
 <h3 align="center">Reporte de Docentes del centro escolar</h3>
 
@@ -22,17 +22,19 @@ Codigo 12053 <br>
       <table class="table table-hover table-striped table-bordered table-quitar-margen">
       <thead>
           <tr>
-            <th>Id</th>
-            <th>Codigo</th>
-            <th>Nombre</th>
+            <th>NIP</th>
+            <th>Docente</th>
+            <th>Hora de entrada</th>
+            <th>Hora de salida</th>
           </tr>
         </thead>
         <tbody>
-          @foreach($materias as $materia)
+          @foreach($jornadas as $jornada)
           <tr>
-            <td>{{ $materia->id }}</td>
-            <td>{{ $materia->codigo }}</td>
-            <td>{{ $materia->nombre }}</td>
+            <td>{{ $jornada->nip }}</td>
+            <td>{{ $jornada->nombre }} {{ $jornada->apellido }}</td>
+            <td>{{ $jornada->hora_entrada }}</td>
+            <td>{{ $jornada->hora_salida }}</td>
             </tr>
  @endforeach
 </tbody>

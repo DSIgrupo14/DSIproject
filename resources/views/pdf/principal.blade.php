@@ -42,7 +42,7 @@
          <div class="col-md-4">
           <h2>Reporte de Jornada Laboral</h2>
           <p>Aca encuentras la jornada laboral de cada uno de los docentes del centro  escolar  </p>
-          <p><a class="btn btn-primary btn-flat" href="#" role="button">Descargar &raquo;</a></p>
+          <p><a class="btn btn-primary btn-flat" href="{{ route('jornadas.pdf') }}" role="button">Descargar &raquo;</a></p>
        </div>
 
         <div class="col-md-4">

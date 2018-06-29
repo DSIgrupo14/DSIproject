@@ -4,6 +4,15 @@
     padding-top: 7px;
 }
 
+.input-btn-alinear .input-group {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.search-margen {
+	padding-bottom: 15px;
+}
+
 /*********************************** Imagen ***********************************/
 
 .img-detalle-usuario {

@@ -37,6 +37,9 @@ Route::resource('grados', 'GradoController');
 // Años
 Route::resource('anios','AnioController');
 
+//Jornada laboral
+Route::resource('jornadas','JornadaController'); 
+
 // Vista de la Pagina Reportes
 Route::get('reportes', function(){
 	return view('pdf.principal');
@@ -53,3 +56,6 @@ Route::get('descargar/niveles', 'NivelEducativoController@pdf')->name('nivel.pdf
 
 // Para descargar PDF de MAterias
 Route::get('descargar/materias', 'MateriaController@pdf')->name('materias.pdf');
+
+// Para descargar PDF de Jornadas Laborales
+Route::get('descargar/jornadas', 'JornadaController@pdf')->name('jornadas.pdf');
