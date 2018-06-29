@@ -2,14 +2,15 @@
 
 namespace DSIproject\Http\Controllers;
 
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
-use DSIproject\Grado;
-use DSIproject\Nivel;
 use DSIproject\Anio;
 use DSIproject\Docente;
+use DSIproject\Grado;
+use DSIproject\Http\Requests\GradoRequest;
+use DSIproject\Nivel;
 use DSIproject\User;
 use Laracasts\Flash\Flash;
-use Barryvdh\DomPDF\Facade as PDF;
 
 class GradoController extends Controller
 {
@@ -45,7 +46,7 @@ class GradoController extends Controller
     {
         $niveles = Nivel::orderBy('nombre', 'asc')->pluck('nombre', 'id');
         $anios = Anio::orderBy('numero', 'asc')->pluck('numero', 'id');
-        $docentes = Docente::orderBy('id', 'asc')->pluck('id', 'user_id');  
+        $docentes = Docente::orderBy('id', 'asc')->get()->pluck('nombre_and_apellido', 'id');
 
         return view('grados.create')
                 ->with('niveles', $niveles)
@@ -54,24 +55,64 @@ class GradoController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in storage. \DSIproject\Http\Requests\UserRequest
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GradoRequest $request)
     {
+        $nivel = Nivel::find($request->nivel_id);
+        $anio = Anio::find($request->anio_id);
+
+        // Validando registro único.
+        if (!$this->esUnico($request->nivel_id, $request->anio_id, $request->seccion)) {
+             flash('
+                <h4>Error en Ingreso de Datos</h4>
+                <p>Ya existe el grado.</p>
+            ')->error()->important();
+
+             return back();
+         }
+
         $grado = new Grado($request->all());
         $grado->estado = 1;
 
+        if ($request->seccion) {
+            $grado->codigo = $nivel->codigo . '-' . $request->seccion . '-' . $anio->numero;
+        } else {
+            $grado->codigo = $nivel->codigo . '-' . $anio->numero;
+        }
+
         $grado->save();
+
+        // Almacenando las materias impartidas en el grado.
+        $materias = $nivel->materias;
+
+        if ($grado->nivel->orientador_materia == 1) {
+            $docente = $grado->docente_id;
+
+            $form_extra = false;
+        } else {
+            $docente = null;
+
+            $form_extra = true;
+        }
+
+        foreach ($materias as $materia) {
+            $grado->materias()->attach($materia->id, ['docente_id' => $docente]);
+        }
 
         flash('
             <h4>Registro de Grado</h4>
             <p>El Grado <strong>' . $grado->codigo . '</strong> se ha registrado correctamente.</p>
         ')->success()->important();
 
-        return redirect()->route('grados.index');
+        if ($form_extra) {
+            return redirect()->route('grados.edit', $grado->id);
+        } else {
+            return redirect()->route('grados.index');
+        }
     }
 
     /**
@@ -101,13 +142,16 @@ class GradoController extends Controller
 
         $niveles = Nivel::orderBy('nombre', 'asc')->pluck('nombre', 'id');
         $anios = Anio::orderBy('numero', 'asc')->pluck('numero', 'id');
-        $docentes = Docente::orderBy('id', 'asc')->pluck('id', 'user_id');  
+        $docentes = Docente::orderBy('id', 'asc')->get()->pluck('nombre_and_apellido', 'id');
+
+        $materias = $grado->materias;
 
         return view('grados.edit')
             ->with('grado', $grado)
             ->with('niveles', $niveles)
             ->with('anios',$anios)
-            ->with('docentes',$docentes);
+            ->with('docentes',$docentes)
+            ->with('materias', $materias);
     }
 
     /**
@@ -119,7 +163,7 @@ class GradoController extends Controller
      */
     public function update(Request $request, $id)
     {
-         $grado = Grado::find($id);
+        $grado = Grado::find($id);
 
         if (!$grado || $grado->estado == 0) {
             abort(404);
@@ -128,6 +172,11 @@ class GradoController extends Controller
         $grado->fill($request->all());
         
         $grado->save();
+
+        // Almacenando las materias impartidas en el grado.
+        for ($i=0; $i < count($request->materias); $i++) { 
+            $grado->materias()->updateExistingPivot($request->materias[$i], ['docente_id' => $request->docentes[$i]]);
+        }
 
         flash('
             <h4>Edición de Docente</h4>
@@ -156,7 +205,7 @@ class GradoController extends Controller
         $grado->save();
 
         flash('
-            <h4>Baja de Usuario</h4>
+            <h4>Baja de Grado</h4>
             <p>El Grado<strong>' . $grado->codigo .  '</strong> se ha dado de baja correctamente.</p>
         ')->error()->important();
 
@@ -173,5 +222,27 @@ class GradoController extends Controller
         $pdf = PDF::loadView('grados.pdf', compact('grados'));
 
         return $pdf->download('grados.pdf');
+    }
+
+    /**
+     * Verifica que el grado sea único.
+     *
+     * @param  int  $nivel
+     * @param  int  $anio
+     * @param  string  $seccion
+     * @return bool
+     */
+    public function esUnico($nivel, $anio, $seccion)
+    {
+        $grado = Grado::where('nivel_id', $nivel)
+            ->where('anio_id', $anio)
+            ->where('seccion', $seccion)
+            ->first();
+
+        if ($grado) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
