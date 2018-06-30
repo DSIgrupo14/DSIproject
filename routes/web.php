@@ -11,7 +11,17 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
+/*
+|--------------------------------------------------------------------------
+| NOTA
+|--------------------------------------------------------------------------
+| Si no tienes usuarios ni roles de usuario en la base de datos, saca del
+| grupo las rutas de roles y usuarios. Por si no quieres hacerlo con tinker
+| o desde phpMyAdmin y accede a ellas con su url correspondiente.
+|
+| Roles: http://localhost:8000/roles
+| Usuarios: Roles: http://localhost:8000/users
+*/
 
 Route::group(['middleware' => ['auth']], function() {
 
@@ -60,6 +70,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('descargar/jornadas', 'JornadaController@pdf')->name('jornadas.pdf');
 
 });
+
+Route::get('/', 'HomeController@index');
 
 Auth::routes();
 
