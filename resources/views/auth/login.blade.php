@@ -1,55 +1,42 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>CEAA | Login </title>
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-</head>
-<body>
+@extends('layouts.login')
 
-<div class="row">
-    <div class="col-md-4 col-md-offset-4">
-    <hr>
-        @if (session()->has('flash'))
-        <div class="alert alert-info" > {{ session('flash') }} </div>
-        @endif
-    <div class=" panel panel-default">
-        <div class="panel-heading">
-            <h1 class="panel-tittle">Incio de Sesion</h1>
-        </div>
+@section('titulo', 'CEAA | Iniciar sesión')
 
-        <div class="panel-body">
-            <form method="POST" action=" {{ route('login') }} ">
+@section('login-msg', 'Iniciar sesión')
 
-                <div class="form-group">
-                    <label for="nombre">Nombre</label>
-                    <input class="form-control" 
-                           type="nombre" name="nombre"
-                           value=" {{ old('nombre')}} " 
-                           placeholder="Ingresa tu UserName">
-                </div>
-
-                @if ($errors->has('email'))
-                <span class="help-block">{{ $errors->first('email') }}</span>
-                @endif
-
-                <div class="form-group">
-                    <label for="password">Contraseña</label>
-                    <input class="form-control" 
-                           type="password" 
-                           name="password" 
-                           placeholder="*************">
-                </div>
-
-                @if ($errors->has('password'))
-                <span class="help-block">{{ $errors->first('password') }}</span>
-                @endif
-
-                <button class="btn btn-primary btn-block"> Acceder </button>
-            </form>
-        </div>
+@section('formulario')
+<form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
+  @csrf
+  <div class="form-group has-feedback">
+    <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Correo electrónico" name="email" value="{{ old('email') }}" required>
+    @if ($errors->has('email'))
+    <span class="invalid-feedback" role="alert">{{ $errors->first('email') }}</span>
+    @endif
+      <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+  </div>
+  <div class="form-group has-feedback">
+    <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Contraseña" name="password" required>
+    @if ($errors->has('password'))
+    <span class="invalid-feedback" role="alert">{{ $errors->first('password') }}</span>
+    @endif
+      <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+  </div>
+  <div class="row">
+    <div class="col-xs-8">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Recordar
+        </label>
+      </div>
     </div>
+    <!-- /.col -->
+    <div class="col-xs-4">
+      <button type="submit" class="btn btn-primary btn-block btn-flat">Acceder</button>
     </div>
-</div>
+    <!-- /.col -->
+  </div>
+</form>
 
-</body>
-</html>
+<a href="{{ route('password.request') }}" class="text-center">Olvidé mi contraseña</a><br>
+<a href="#" class="text-center">Registrarme</a>
+@endsection
