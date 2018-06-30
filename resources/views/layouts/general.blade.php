@@ -87,7 +87,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Inicio</a>
+                  <a href="{{ route('home') }}" class="btn btn-default btn-flat">Inicio</a>
                 </div>
                 <div class="pull-right">
                   <a href="{{ route('logout') }}" class="btn btn-default btn-flat" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Cerrar sesión</a>

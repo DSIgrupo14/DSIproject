@@ -69,6 +69,12 @@ Route::group(['middleware' => ['auth']], function() {
     // Para descargar PDF de Jornadas Laborales
     Route::get('descargar/jornadas', 'JornadaController@pdf')->name('jornadas.pdf');
 
+    // Editar imagen de perfil.
+    Route::put('/{user}', 'HomeController@actualizarImagen')->name('actualizar-imagen');
+    
+    // Editar contraseña.
+    Route::put('/{user}/password', 'HomeController@actualizarPassword')->name('actualizar-password');
+
 });
 
 Route::get('/', 'HomeController@index');
