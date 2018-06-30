@@ -20,6 +20,20 @@
 	width: 250px;
 }
 
+/************************************ Login ***********************************/
+
+.invalid-feedback {
+    color: #ff0000;
+}
+
+.login-fondo {
+    background-color: #222d32;
+}
+
+.login-logo-color {
+    color: #fff;
+}
+
 /*********************************** Sidebar **********************************/
 
 .logo-mini-tamanio {

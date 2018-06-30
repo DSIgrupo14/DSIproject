@@ -28,14 +28,16 @@
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <!-- Mis estilos -->
+  <link rel="stylesheet" href="{{ asset('css/mis-estilos.css') }}">
   <!-- Favicon -->
   <link rel="favicon" href="{{ asset('img/sistema/favicon.png') }}" />
   <link rel="shortcut icon" href="{{ asset('img/sistema/favicon.ico') }}" />
 </head>
-<body class="hold-transition login-page">
+<body class="hold-transition login-page login-fondo">
 <div class="login-box">
-  <div class="login-logo">
-    <a href="../../index2.html">@yield('login-logo', 'CEAA')</a>
+  <div class="login-logo login-logo-color">
+    <p>@yield('login-logo', 'CEAA')</p>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">

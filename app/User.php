@@ -69,4 +69,13 @@ class User extends Authenticatable
             $this->attributes['password'] = $value;
         }
     }
+
+    /**
+     * Indica si el usuario tiene rol de director.
+     *
+     * @return bool
+     */
+    public function direc() {
+        return $this->rol->codigo === 'direc';
+    }
 }

@@ -59,5 +59,8 @@ class Kernel extends HttpKernel
         'guest' => \DSIproject\Http\Middleware\RedirectIfAuthenticated::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+
+        // Middlewares agregados.
+        'direc' => \DSIproject\Http\Middleware\Direc::class,
     ];
 }

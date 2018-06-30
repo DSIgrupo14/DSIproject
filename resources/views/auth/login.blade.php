@@ -36,7 +36,8 @@
     <!-- /.col -->
   </div>
 </form>
-
-<a href="{{ route('password.request') }}" class="text-center">Olvidé mi contraseña</a><br>
-<a href="#" class="text-center">Registrarme</a>
+<div class="text-center">
+  <br>
+  <a href="{{ route('password.request') }}" class="text-center">Olvidé mi contraseña</a>
+</div>
 @endsection

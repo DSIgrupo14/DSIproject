@@ -23,28 +23,37 @@
 | Usuarios: Roles: http://localhost:8000/users
 */
 
-Route::group(['middleware' => ['auth']], function() {
+/**
+ * Solo tienen acceso usuarios autentificados.
+ */
+Route::group(['middleware' => 'auth'], function() {
 
-    // Roles de usuario.
-    Route::resource('roles', 'RolController');
+    /**
+     * Solo tienen acceso usuarios con rol de director.
+     */
+    Route::group(['middleware' => 'direc'], function() {
+
+        // Roles de usuario.
+        Route::resource('roles', 'RolController');
+
+        // Usuarios.
+        Route::resource('users', 'UserController');
+
+        // Materias.
+        Route::resource('materias', 'MateriaController');
+
+        //Nivel Educativo
+        Route::resource('nivel', 'NivelEducativoController');
+
+        // Grados
+        Route::resource('grados', 'GradoController');
+
+        // Años
+        Route::resource('anios','AnioController');
+    });
 
     // Docentes.
     Route::resource('docentes', 'DocenteController');
-
-    // Usuarios.
-    Route::resource('users', 'UserController');
-
-    // Materias.
-    Route::resource('materias', 'MateriaController');
-
-    //Nivel Educativo
-    Route::resource('nivel', 'NivelEducativoController');
-
-    // Grados
-    Route::resource('grados', 'GradoController');
-
-    // Años
-    Route::resource('anios','AnioController');
 
     //Jornada laboral
     Route::resource('jornadas','JornadaController'); 

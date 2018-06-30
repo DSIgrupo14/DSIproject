@@ -43,6 +43,12 @@
 <!-- ADD THE CLASS fixed TO GET A FIXED HEADER AND SIDEBAR LAYOUT -->
 <!-- the fixed layout is not compatible with sidebar-mini -->
 <body class="hold-transition skin-blue fixed sidebar-mini">
+<?php
+  // Nombre corto de usuario autentificado.
+  $nombre = explode(' ', Auth::user()->nombre);
+  $apellido = explode(' ', Auth::user()->apellido);
+  $anio = \Carbon\Carbon::now()->format('Y');
+?>
 <!-- Site wrapper -->
 <div class="wrapper">
 
@@ -72,16 +78,15 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="{{ asset('img/users/user_default.jpg') }}" class="user-image" alt="Imagen de usuario">
-              <span class="hidden-xs">Nombre de usuario</span>
+              <span class="hidden-xs">{{ $nombre[0] }} {{ $apellido[0] }}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
                 <img src="{{ asset('img/users/user_default.jpg') }}" class="img-circle" alt="Imagen de usuario">
-
                 <p>
-                  Nombre de usuario
-                  <small>Rol de usuario</small>
+                  {{ $nombre[0] }} {{ $apellido[0] }}
+                  <small>{{ Auth::user()->rol->nombre }}</small>
                 </p>
               </li>
               <!-- Menu Footer-->
@@ -115,18 +120,20 @@
           <img src="{{ asset('img/users/user_default.jpg') }}" class="img-circle" alt="Imagen de usuario">
         </div>
         <div class="pull-left info">
-          <p>Nombre de usuario</p>
+          <p>{{ $nombre[0] }} {{ $apellido[0] }}</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
+        @if (Auth::user()->direc())
         <li class="header">GESTIÓN ACADÉMICA</li>
         <li>
           <a href="{{ route('grados.index') }}">
             <i class="fa fa-graduation-cap"></i> <span>Grados</span>
           </a>
         </li>
+        @endif
         <li class="header">PERSONAL</li>
         <li>
           <a href="{{ route('docentes.index') }}">
@@ -144,6 +151,7 @@
             <i class="fa fa-book"></i> <span>Reportes</span>
           </a>
         </li>
+        @if (Auth::user()->direc())
         <li class="treeview">
           <a href="#">
             <i class="fa fa-cog"></i> <span>Configuración</span>
@@ -152,11 +160,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-
             <li><a href=" {{ route('nivel.index')}} "><i class="fa fa-circle-o"></i> Niveles educativos</a></li>
-
             <li><a href=" {{ route('anios.index') }}"><i class="fa fa-circle-o"></i> Años escolares</a></li>
-
             <li><a href=" {{ route('materias.index')}} "><i class="fa fa-circle-o"></i> Materias</a></li>
           </ul>
         </li>
@@ -172,6 +177,7 @@
             <li><a href="{{ route('roles.index') }}"><i class="fa fa-circle-o"></i> Roles de usuario</a></li>
           </ul>
         </li>
+        @endif
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -205,7 +211,7 @@
     <div class="pull-right hidden-xs">
       <b>Version</b> 1.0
     </div>
-    <strong>Copyright &copy; 2018 <a href="#">Centro Escolar Anastasio Aquino</a></strong>
+    <strong>Copyright &copy; {{ $anio }} <a href="#">Centro Escolar Anastasio Aquino</a></strong>
   </footer>
 </div>
 <!-- ./wrapper -->

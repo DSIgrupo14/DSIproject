@@ -2,9 +2,9 @@
 
 @section('titulo', 'CEAA | Inicio')
 
-@section('encabezado', 'Nivel Educativo ')
+@section('encabezado', 'Inicio')
 
-@section('subencabezado', 'Gestión')
+@section('subencabezado', 'Perfil')
 
 @section('breadcrumb')
 <li>

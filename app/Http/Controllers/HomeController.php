@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     /**
-     * Create a new controller instance.
+     * Crea una nueva instancia de controlador.
      *
      * @return void
      */
@@ -27,11 +27,18 @@ class HomeController extends Controller
         return view('home');
     }
 
+    /**
+     * Actualiza imagen de perfil del usuario.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function actualizarImagen(Request $request, $id)
     {
         // Validación.
         $this->validate(request(), [
-            'imagen'   => 'image|mimes:jpeg,png,bmp|max:2048'
+            'imagen'   => 'required|image|mimes:jpeg,png,bmp|max:2048'
         ]);
 
         $user = User::find($id);
@@ -64,11 +71,18 @@ class HomeController extends Controller
         return redirect()->route('home');
     }
 
+    /**
+     * Actualiza contraseña del usuario.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function actualizarPassword(Request $request, $id)
     {
         // Validación.
         $this->validate(request(), [
-            'password' => 'max:100|confirmed',
+            'password' => 'required|min:6|max:100|confirmed',
         ]);
 
         $user = User::find($id);
