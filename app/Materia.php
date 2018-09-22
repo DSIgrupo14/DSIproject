@@ -35,6 +35,16 @@ class Materia extends Model
     }
 
     /**
+     * Obtiene las evaluaciones de la materia.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function evaluaciones()
+    {
+        return $this->hasMany('DSIproject\Evaluacion');
+    }
+
+    /**
      * Obtiene los grados donde se imparte la materia.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

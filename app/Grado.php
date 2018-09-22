@@ -58,6 +58,26 @@ class Grado extends Model
     }
 
     /**
+     * Obtiene las matriculas del grado.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function matriculas()
+    {
+        return $this->hasMany('DSIproject\Matricula');
+    }
+
+    /**
+     * Obtiene las evaluaciones del grado.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function evaluaciones()
+    {
+        return $this->hasMany('DSIproject\Evaluacion');
+    }
+
+    /**
      * Obtiene los docentes que imparten clases de alguna materia en el grado.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -78,6 +98,30 @@ class Grado extends Model
     {
         return $this->belongsToMany('DSIproject\Materia', 'grado_materia')
             ->withPivot('docente_id')
+            ->withTimestamps();
+    }
+
+    /**
+     * Obtiene los valores que se evalúan a los alumnos en el grado.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function valores()
+    {
+        return $this->belongsToMany('DSIproject\Valor', 'alumno_valor')
+            ->withPivot(['alumno_id', 'trimestre', 'nota'])
+            ->withTimestamps();
+    }
+
+    /**
+     * Obtiene los alumnos a los que se han evaluado valores en el grado.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function alumnos()
+    {
+        return $this->belongsToMany('DSIproject\Alumno', 'alumno_valor')
+            ->withPivot(['valor_id', 'trimestre', 'nota'])
             ->withTimestamps();
     }
 }
