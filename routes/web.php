@@ -52,11 +52,20 @@ Route::group(['middleware' => 'auth'], function() {
         Route::resource('anios','AnioController');
     });
 
-    // Docentes.
-    Route::resource('docentes', 'DocenteController');
+    /**
+     * Solo tienen acceso usuarios con rol de director o secretaria.
+     */
+    Route::group(['middleware' => 'direc'], function() {
 
-    //Jornada laboral
-    Route::resource('jornadas','JornadaController'); 
+        // Docentes.
+        Route::resource('docentes', 'DocenteController');
+
+        //Jornada laboral
+        Route::resource('jornadas','JornadaController');
+    });
+
+    // Alumnos.
+    Route::resource('alumnos','AlumnoController');
 
     // Vista de la Pagina Reportes
     Route::get('reportes', function(){

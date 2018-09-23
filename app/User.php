@@ -78,4 +78,13 @@ class User extends Authenticatable
     public function direc() {
         return $this->rol->codigo === 'direc';
     }
+
+    /**
+     * Indica si el usuario tiene rol de secretaria.
+     *
+     * @return bool
+     */
+    public function secre() {
+        return $this->rol->codigo === 'secre';
+    }
 }

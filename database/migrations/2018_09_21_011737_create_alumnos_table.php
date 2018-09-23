@@ -21,7 +21,7 @@ class CreateAlumnosTable extends Migration
             $table->string('apellido', 100);
             $table->date('fecha_nacimiento');
             $table->enum('genero', ['F', 'M']);
-            $table->string('direcion', 400)->nullable();
+            $table->string('direccion', 400)->nullable();
             $table->char('telefono', 8);
             $table->string('responsable', 200);
             $table->boolean('estado');

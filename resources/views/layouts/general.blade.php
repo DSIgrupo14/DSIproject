@@ -134,6 +134,12 @@
           </a>
         </li>
         @endif
+        <li>
+          <a href="{{ route('alumnos.index') }}">
+            <i class="fa fa-child"></i> <span>Alumnos</span>
+          </a>
+        </li>
+        @if (Auth::user()->direc())
         <li class="header">PERSONAL</li>
         <li>
           <a href="{{ route('docentes.index') }}">
@@ -145,6 +151,7 @@
             <i class="fa fa-clock-o"></i> <span>Jornada Laboral</span>
           </a>
         </li>
+        @endif
         <li class="header">ADMINISTRACIÓN</li>
         <li>
           <a href="{{ route('reportes') }}">

@@ -62,5 +62,6 @@ class Kernel extends HttpKernel
 
         // Middlewares agregados.
         'direc' => \DSIproject\Http\Middleware\Direc::class,
+        'secre' => \DSIproject\Http\Middleware\Secre::class,
     ];
 }
