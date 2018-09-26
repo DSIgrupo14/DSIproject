@@ -67,6 +67,9 @@ Route::group(['middleware' => 'auth'], function() {
     // Alumnos.
     Route::resource('alumnos','AlumnoController');
 
+    // Matriculas.
+    Route::resource('matriculas','MatriculaController');
+
     // Vista de la Pagina Reportes
     Route::get('reportes', function(){
 	    return view('pdf.principal');

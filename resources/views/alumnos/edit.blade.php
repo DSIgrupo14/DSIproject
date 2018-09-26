@@ -23,7 +23,7 @@
     <h3 class="box-title">Editar Alumno</h3>
   </div>
   <!-- Formulario -->
-  {!! Form::open(['route' => ['alumnos.update', $alumno], 'autocomplete' => 'off', 'method' => 'PUT', 'files' => true, 'class' => 'form-horizontal']) !!}
+  {!! Form::open(['route' => ['alumnos.update', $alumno], 'autocomplete' => 'off', 'method' => 'PUT', 'class' => 'form-horizontal']) !!}
     <div class="box-body">
       <!-- Nombre -->
       <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">

@@ -23,7 +23,7 @@
     <h3 class="box-title">Registrar Alumno</h3>
   </div>
   <!-- Formulario -->
-  {!! Form::open(['route' => 'alumnos.store', 'autocomplete' => 'off', 'method' => 'POST', 'files' => true, 'class' => 'form-horizontal']) !!}
+  {!! Form::open(['route' => 'alumnos.store', 'autocomplete' => 'off', 'method' => 'POST', 'class' => 'form-horizontal']) !!}
     <div class="box-body">
       <!-- Nombre -->
       <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">

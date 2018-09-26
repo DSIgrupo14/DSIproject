@@ -2,7 +2,7 @@
 
 @section('titulo', 'CEAA | Alumnos')
 
-@section('encabezado', 'Alumno')
+@section('encabezado', 'Alumnos')
 
 @section('subencabezado', 'Gestión')
 
@@ -21,14 +21,14 @@
   <div class="box-body">
     <div class="row">
       <div class="col-sm-6">
-        <a href="{{ route('alumnos.create') }}" class="btn btn-primary btn-flat">Registrar alumno</a>
+        <a href="{{ route('alumnos.create') }}" class="btn btn-primary btn-flat">Registrar Alumno</a>
       </div>
       <div class="col-sm-6">
       	<!-- Barra de búsqueda -->
       	@include('alumnos.search')
       </div>
     </div>
-  	<!-- Listado de usuarios -->
+  	<!-- Listado de alumnos -->
   	@if ($alumnos->count() > 0)
   	<div class="table-responsive">
       <table class="table table-hover table-striped table-bordered table-quitar-margen">

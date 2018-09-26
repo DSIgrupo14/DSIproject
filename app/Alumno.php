@@ -86,4 +86,14 @@ class Alumno extends Model
             ->withPivot(['valor_id', 'trimestre', 'nota'])
             ->withTimestamps();
     }
+
+    /**
+     * Obtiene el nombre y apellido del alumno.
+     *
+     * @return string
+     */
+    public function getNombreAndApellidoAttribute()
+    {
+        return $this->nombre . ' ' . $this->apellido;
+    }
 }

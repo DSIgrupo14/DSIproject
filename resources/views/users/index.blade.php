@@ -2,7 +2,7 @@
 
 @section('titulo', 'CEAA | Usuarios')
 
-@section('encabezado', 'Usuario')
+@section('encabezado', 'Usuarios')
 
 @section('subencabezado', 'Gestión')
 

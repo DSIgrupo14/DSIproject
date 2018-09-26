@@ -139,6 +139,11 @@
             <i class="fa fa-child"></i> <span>Alumnos</span>
           </a>
         </li>
+        <li>
+          <a href="{{ route('matriculas.index') }}">
+            <i class="fa fa-clipboard"></i> <span>Matrículas</span>
+          </a>
+        </li>
         @if (Auth::user()->direc())
         <li class="header">PERSONAL</li>
         <li>
