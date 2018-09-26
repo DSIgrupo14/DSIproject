@@ -231,4 +231,15 @@ class AlumnoController extends Controller
             return null;
         }
     }
+
+    /**
+     * Muestra el récord de notas del alumno.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function record($id)
+    {
+        return view('alumnos.record');
+    }
 }

@@ -67,6 +67,9 @@ Route::group(['middleware' => 'auth'], function() {
     // Alumnos.
     Route::resource('alumnos','AlumnoController');
 
+    // Récord de notas.
+    Route::get('alumnos/{alumno}/record', 'AlumnoController@record')->name('alumnos.record');
+
     // Matriculas.
     Route::resource('matriculas','MatriculaController');
 
