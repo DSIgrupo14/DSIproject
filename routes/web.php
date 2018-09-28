@@ -73,6 +73,7 @@ Route::group(['middleware' => 'auth'], function() {
     // Notas.
     Route::get('notas', 'NotaController@index')->name('notas.index');
     Route::get('notas/{gra_mat}/edit', 'NotaController@edit')->name('notas.edit');
+    Route::put('notas/update/{nota}', 'NotaController@update')->name('notas.update');
 
     // Evaluaciones.
     //Route::resource('evaluaciones', 'EvaluacionController');

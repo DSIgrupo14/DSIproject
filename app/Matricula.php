@@ -43,4 +43,14 @@ class Matricula extends Model
     {
         return $this->belongsTo('DSIproject\Grado');
     }
+
+    /**
+     * Obtiene el apellido del alumno.
+     *
+     * @return string
+     */
+    public function getApellidoAttribute()
+    {
+        return $this->alumno->apellido;
+    }    
 }

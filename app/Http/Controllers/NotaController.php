@@ -93,6 +93,7 @@ class NotaController extends Controller
     /**
      * Muestra el cuadro de notas para edición.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -116,16 +117,139 @@ class NotaController extends Controller
             $request->trimestre = 1;
         }
 
-        $evaluaciones = Evaluacion::where('grado_id', $grado->id)
+        $evaluaciones = Evaluacion::where('tipo', 'EXA')
+            ->where('grado_id', $grado->id)
+            ->where('materia_id', $materia->id)
+            ->where('trimestre', $request->trimestre)
+            ->orWhere('tipo', 'ACT')
+            ->where('grado_id', $grado->id)
             ->where('materia_id', $materia->id)
             ->where('trimestre', $request->trimestre)
             ->orderBy('posicion', 'asc')
             ->get();
 
+        $matriculas_sin_orden = $grado->matriculas;
+        $matriculas = $matriculas_sin_orden->sortBy('apellido')->values()->all();
+
+        // Verificar si existe evaluación de recuperación.
+        $num_rec = Evaluacion::where('materia_id', $materia->id)
+            ->where('grado_id', $grado->id)
+            ->where('tipo', 'REC')
+            ->where('trimestre', $request->trimestre)
+            ->count();
+
+        if ($num_rec == 0) {
+            $recuperacion = new Evaluacion;
+            $recuperacion->grado_id = $grado->id;
+            $recuperacion->materia_id = $materia->id;
+            $recuperacion->tipo = 'REC';
+            $recuperacion->porcentaje = 1;
+            $recuperacion->trimestre = $request->trimestre;
+            $recuperacion->posicion = 0;
+            $recuperacion->save();
+        }
+
+        // Evaluación de recuperación del ciclo.
+        $rec = Evaluacion::where('materia_id', $materia->id)
+            ->where('grado_id', $grado->id)
+            ->where('tipo', 'REC')
+            ->where('trimestre', $request->trimestre)
+            ->first();
+
+        // Arreglos con las notas.
+        $notas = Collection::make();
+        $promedios = Collection::make();
+        $recuperaciones = Collection::make();
+
+        foreach ($matriculas as $matricula) {
+
+            $nota = Collection::make();
+            $promedio = 0;
+
+            foreach ($evaluaciones as $evaluacion) {
+                $n = DB::table('alumno_evaluacion')
+                    ->where('alumno_id', $matricula->alumno->id)
+                    ->where('evaluacion_id', $evaluacion->id)
+                    ->first();
+
+                // Si no hay registro.
+                if (! $n) {
+                    $evaluacion->alumnos()->attach($matricula->alumno->id, ['nota' => 0]);
+
+                    $n = DB::table('alumno_evaluacion')
+                        ->where('alumno_id', $matricula->alumno->id)
+                        ->where('evaluacion_id', $evaluacion->id)
+                        ->first();
+                }
+
+                $promedio += round($n->nota * $evaluacion->porcentaje, 2);
+
+                $nota->push($n);
+            }
+
+            // Notas.
+            $notas->push($nota);
+
+            // Promedio.
+            //$promedio = round($nota->avg('nota'), 2);
+            $promedios->push($promedio);
+
+            // Recuperacion.
+            $r = DB::table('alumno_evaluacion')
+                ->where('alumno_id', $matricula->alumno->id)
+                ->where('evaluacion_id', $rec->id)
+                ->first();
+
+            // Si no hay registro.
+            if (! $r) {
+                $rec->alumnos()->attach($matricula->alumno->id, ['nota' => 0]);
+
+                $r = DB::table('alumno_evaluacion')
+                    ->where('alumno_id', $matricula->alumno->id)
+                    ->where('evaluacion_id', $rec->id)
+                    ->first();
+            }
+
+            $recuperaciones->push($r);
+        }
+
         return view('notas.edit')
             ->with('grado', $grado)
             ->with('materia', $materia)
             ->with('gra_mat', $id)
-            ->with('evaluaciones', $evaluaciones);
+            ->with('trimestre', $request->trimestre)
+            ->with('evaluaciones', $evaluaciones)
+            ->with('matriculas', $matriculas)
+            ->with('notas', $notas)
+            ->with('promedios', $promedios)
+            ->with('recuperaciones', $recuperaciones);
+    }
+
+    /**
+     * Actualiza la nota especificada en la base de datos.
+     *
+     * @param  \DSIproject\Http\Requests\RolRequest  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        dd($request);
+        /*$rol = Rol::find($id);
+
+        if (!$rol || $rol->estado == 0) {
+            abort(404);
+        }
+        
+        $rol->fill($request->all());
+        
+        $rol->save();
+
+        flash('
+            <h4>Edición de Rol de Usuario</h4>
+            <p>El rol de usuario <strong>' . $rol->nombre . '</strong> se ha editado correctamente.</p>
+        ')->success()->important();
+
+        return redirect()->route('roles.index');*/
     }
 }

@@ -4,7 +4,7 @@
 
 @section('encabezado', 'Notas')
 
-@section('subencabezado', 'Materia')
+@section('subencabezado', $grado->codigo . ' - ' . $materia->nombre)
 
 @section('breadcrumb')
 <li>
@@ -38,16 +38,64 @@
             </ol>
           </div>
         </div>
-        <div class="row">
+        <div class="row search-margen">
           <div class="col-sm-12">
             <!-- Barra de búsqueda -->
             @include('notas.search-trimestre')
           </div>
         </div>
+        <!-- Listado de roles de usuario -->
+        @if (count($evaluaciones) > 0)
+        <div class="table-responsive">
+          <table class="table table-hover table-striped table-bordered table-quitar-margen">
+            <thead>
+              <tr>
+                <th>Alumno</th>
+                @foreach ($evaluaciones as $evaluacion)
+                <th>
+                  {{ $evaluacion->tipo }}
+                  <br>
+                  ({{ $evaluacion->porcentaje * 100 }}%)
+                </th>
+                @endforeach
+                <th>NOTA</th>
+                <th>REC</th>
+                <th>NOTA FINAL</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for ($i = 0; $i < count($matriculas); $i++)
+              <tr>
+                <td>{{ $matriculas[$i]->alumno->apellido }}, {{ $matriculas[$i]->alumno->nombre }}</td>
+                @for ($j = 0; $j < count($notas[$i]); $j++)
+                <td>
+                  <input type="text" id="nota-{{ $i }}-{{ $j }}" onblur="actualizar('nota-{{ $i }}-{{ $j }}', {{ $notas[$i][$j]->id }})" value="{{ $notas[$i][$j]->nota }}" style="width: 45px;">
+                </td>
+                @endfor
+                <td>
+                  <input type="text" id="promedio-{{ $i }}" value="{{ $promedios[$i] }}" disabled style="width: 45px;">
+                </td>
+                <td>
+                  <input type="text" id="recuperacion-{{ $i }}" onblur="actualizar('recuperacion-{{ $i }}', {{ $recuperaciones[$i]->id }})" value="{{ $recuperaciones[$i]->nota }}" style="width: 45px;">
+                </td>
+                <td>NOTA FINAL</td>
+                </td>
+              </tr>
+              @endfor
+            </tbody>
+          </table>
+        </div>
+        <!-- Si no hay evaluaciones -->
+        @else
+          <div class="text-center">
+            <i class="fa fa-search fa-5x" aria-hidden="true"></i>
+            <h4>No se encontraron evaluaciones</h4>
+          </div>
+        @endif
       </div>
       <!-- /.box-body -->
       <div class="box-footer">
-
+        footer
       </div>
       <!-- /.box-footer-->
     </div>
@@ -94,4 +142,17 @@
 @endsection
 
 @section('scripts')
+<!-- Actualización de notas -->
+<script src="{{ asset('js/axios.min.js') }}"></script>
+<script>
+  function actualizar(nota, evaluacion) {
+    nota = document.getElementById(nota).value;
+    axios.put('{{ route("notas.index") }}' + '/update/' + evaluacion, {nota}).then(function (res) {
+      //si se quiere retornar algo
+    })
+    .catch(function (err) {
+      //si sucede algún error
+    });
+  }
+</script>
 @endsection
