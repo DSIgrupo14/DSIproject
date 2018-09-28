@@ -70,6 +70,20 @@ Route::group(['middleware' => 'auth'], function() {
     // Matriculas.
     Route::resource('matriculas','MatriculaController');
 
+    // Notas.
+    Route::get('notas', 'NotaController@index')->name('notas.index');
+    Route::get('notas/{gra_mat}/edit', 'NotaController@edit')->name('notas.edit');
+
+    // Evaluaciones.
+    //Route::resource('evaluaciones', 'EvaluacionController');
+    Route::get('evaluaciones/{gra_mat}/create', 'EvaluacionController@create')->name('evaluaciones.create');
+    Route::post('evaluaciones/store', 'EvaluacionController@store')->name('evaluaciones.store');
+    Route::get('evaluaciones/{gra_mat}/{evaluacion}/subir', 'EvaluacionController@subir')->name('evaluaciones.subir');
+    Route::get('evaluaciones/{gra_mat}/{evaluacion}/bajar', 'EvaluacionController@bajar')->name('evaluaciones.bajar');
+    Route::get('evaluaciones/{evaluacion}/edit', 'EvaluacionController@edit')->name('evaluaciones.edit');
+    Route::put('evaluaciones/{evaluacion}/update', 'EvaluacionController@update')->name('evaluaciones.update');
+    Route::get('evaluaciones/{evaluacion}', 'EvaluacionController@destroy')->name('evaluaciones.destroy');
+
     // Vista de la Pagina Reportes
     Route::get('reportes', function(){
 	    return view('pdf.principal');

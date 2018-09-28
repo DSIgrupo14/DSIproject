@@ -145,7 +145,7 @@
           </a>
         </li>
         <li>
-          <a href="{{ route('matriculas.index') }}">
+          <a href="{{ route('notas.index') }}">
             <i class="fa fa-star"></i> <span>Notas</span>
           </a>
         </li>

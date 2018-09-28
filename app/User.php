@@ -87,4 +87,13 @@ class User extends Authenticatable
     public function secre() {
         return $this->rol->codigo === 'secre';
     }
+
+    /**
+     * Indica si el usuario tiene rol de docente.
+     *
+     * @return bool
+     */
+    public function docen() {
+        return $this->rol->codigo === 'docen';
+    }
 }

@@ -72,7 +72,7 @@
               @endif
             </td>
           </tr>
-          <!-- Modal para dar de baja -->
+          <!-- Modal para eliminar matrícula -->
           @include('matriculas.modal')
           @endforeach
         </tbody>
