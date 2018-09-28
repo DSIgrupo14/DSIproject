@@ -160,6 +160,7 @@ class NotaController extends Controller
         $notas = Collection::make();
         $promedios = Collection::make();
         $recuperaciones = Collection::make();
+        $finales = Collection::make();
 
         foreach ($matriculas as $matricula) {
 
@@ -211,6 +212,10 @@ class NotaController extends Controller
             }
 
             $recuperaciones->push($r);
+
+            // Finales.
+            $final = $promedio + $r->nota;
+            $finales->push($final);
         }
 
         return view('notas.edit')
@@ -222,34 +227,73 @@ class NotaController extends Controller
             ->with('matriculas', $matriculas)
             ->with('notas', $notas)
             ->with('promedios', $promedios)
-            ->with('recuperaciones', $recuperaciones);
+            ->with('recuperaciones', $recuperaciones)
+            ->with('finales', $finales);
     }
 
     /**
-     * Actualiza la nota especificada en la base de datos.
+     * Actualiza las notas especificadas en la base de datos.
      *
-     * @param  \DSIproject\Http\Requests\RolRequest  $request
-     * @param  int  $id
+     * @param  \DSIproject\Http\Requests  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        dd($request);
-        /*$rol = Rol::find($id);
+        // Notas de evaluaciones de tipo examen y actividad.
+        $notas_v = $request->notas_v;
 
-        if (!$rol || $rol->estado == 0) {
-            abort(404);
+        $notas_id = $request->notas_id;
+
+        for ($i = 0; $i < count($notas_v); $i++) {
+
+            if (empty($notas_v[$i])) {
+                flash('
+                    <h4>Error en Ingreso de Datos</h4>
+                    <p>No dejar campos vacíos.</p>
+                ')->error()->important();
+
+                return back();
+            }
+
+            if(! is_numeric($notas_v[$i])) {
+                flash('
+                    <h4>Error en Ingreso de Datos</h4>
+                    <p>Solo ingresar valores numéricos.</p>
+                ')->error()->important();
+
+                return back();
+            }
+
+            $nota = DB::table('alumno_evaluacion')
+                ->where('id', $notas_id[$i])
+                ->first();
+
+            $evaluacion = Evaluacion::find($nota->evaluacion_id);
+
+            $evaluacion->alumnos()->updateExistingPivot($nota->alumno_id, ['nota' => $notas_v[$i]]);
         }
-        
-        $rol->fill($request->all());
-        
-        $rol->save();
+
+        // Notas de recuperación.
+        $recuperaciones_v = $request->recuperaciones_v;
+
+        $recuperaciones_id = $request->recuperaciones_id;
+
+        for ($i = 0; $i < count($recuperaciones_v); $i++) { 
+            
+            $nota = DB::table('alumno_evaluacion')
+                ->where('id', $recuperaciones_id[$i])
+                ->first();
+
+            $evaluacion = Evaluacion::find($nota->evaluacion_id);
+
+            $evaluacion->alumnos()->updateExistingPivot($nota->alumno_id, ['nota' => $recuperaciones_v[$i]]);
+        }
 
         flash('
-            <h4>Edición de Rol de Usuario</h4>
-            <p>El rol de usuario <strong>' . $rol->nombre . '</strong> se ha editado correctamente.</p>
+            <h4>Actualización de Notas</h4>
+            <p>Las notas se han actualizado correctamente.</p>
         ')->success()->important();
 
-        return redirect()->route('roles.index');*/
+        return redirect()->route('notas.edit', $request->gra_mat);
     }
 }

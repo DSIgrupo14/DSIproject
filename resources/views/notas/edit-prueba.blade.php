@@ -44,12 +44,10 @@
             @include('notas.search-trimestre')
           </div>
         </div>
-        <!-- Listado de notas -->
+        <!-- Listado de roles de usuario -->
         @if (count($evaluaciones) > 0)
-        <!-- Formulario -->
-        {!! Form::open(['route' => ['notas.update'], 'autocomplete' => 'off', 'method' => 'PUT']) !!}
         <div class="table-responsive">
-          <table class="table table-hover table-striped table-bordered">
+          <table class="table table-hover table-striped table-bordered table-quitar-margen">
             <thead>
               <tr>
                 <th>Alumno</th>
@@ -70,42 +68,23 @@
               <tr>
                 <td>{{ $matriculas[$i]->alumno->apellido }}, {{ $matriculas[$i]->alumno->nombre }}</td>
                 @for ($j = 0; $j < count($notas[$i]); $j++)
-                <td>                  
-                  {!! Form::text('notas_v[]', $notas[$i][$j]->nota, ['class' => 'form-control', 'required', 'style' => 'width: 60px;']) !!}
-                  {!! Form::hidden('notas_id[]', $notas[$i][$j]->id, ['required']) !!}
+                <td>
+                  <input type="text" id="nota-{{ $i }}-{{ $j }}" onblur="actualizar('nota-{{ $i }}-{{ $j }}', {{ $notas[$i][$j]->id }})" value="{{ $notas[$i][$j]->nota }}" style="width: 45px;">
                 </td>
                 @endfor
                 <td>
-                  {!! Form::text('promedios[]', $promedios[$i], ['class' => 'form-control', 'disabled', 'style' => 'width: 60px;']) !!}
+                  <input type="text" id="promedio-{{ $i }}" value="{{ $promedios[$i] }}" disabled style="width: 45px;">
                 </td>
                 <td>
-                  @if ($promedios[$i] < 5.0)
-                  {!! Form::text('recuperaciones_v[]', $recuperaciones[$i]->nota, ['class' => 'form-control', 'required', 'style' => 'width: 60px;']) !!}
-                  @else
-                  {!! Form::text('recuperaciones_vista[]', $recuperaciones[$i]->nota, ['class' => 'form-control', 'required', 'style' => 'width: 60px;', 'disabled']) !!}
-                  {!! Form::hidden('recuperaciones_v[]', $recuperaciones[$i]->nota, ['required']) !!}
-                  @endif
-                  {!! Form::hidden('recuperaciones_id[]', $recuperaciones[$i]->id, ['required']) !!}
+                  <input type="text" id="recuperacion-{{ $i }}" onblur="actualizar('recuperacion-{{ $i }}', {{ $recuperaciones[$i]->id }})" value="{{ $recuperaciones[$i]->nota }}" style="width: 45px;">
                 </td>
-                <td>
-                  {!! Form::text('finales[]', $finales[$i], ['class' => 'form-control', 'disabled', 'style' => 'width: 60px;']) !!}
-                </td>
+                <td>NOTA FINAL</td>
                 </td>
               </tr>
               @endfor
             </tbody>
           </table>
         </div>
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="pull-right">
-              <a href="{{ route('notas.edit', $gra_mat) }}" class="btn btn-default btn-flat">Cancelar</a>
-              {!! Form::submit('Actualizar', ['class' => 'btn btn-primary btn-flat']) !!}
-            </div>
-          </div>
-        </div>
-        {!! Form::hidden('gra_mat', $gra_mat, ['required']) !!}
-        {!! Form::close() !!}
         <!-- Si no hay evaluaciones -->
         @else
           <div class="text-center">
@@ -115,6 +94,10 @@
         @endif
       </div>
       <!-- /.box-body -->
+      <div class="box-footer">
+        footer
+      </div>
+      <!-- /.box-footer-->
     </div>
     <!-- /.box -->
   </div>
@@ -159,4 +142,25 @@
 @endsection
 
 @section('scripts')
+<!-- Actualización de notas -->
+@routes
+<script>
+    window.Laravel = {!! json_encode([
+        'csrfToken' => csrf_token(),
+    ]) !!};
+</script>
+<script src="{{ asset('js/axios.min.js') }}"></script>
+<script>
+  function actualizar(nota, evaluacion) {
+    nota = document.getElementById(nota).value;
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = Laravel.csrfToken;
+    axios.put(route('notas.update', evaluacion) + '?' + 'nota=' + nota)
+      .then(function (res) {
+        console.log(res);
+      })
+      .catch(function (err) {
+        console.log(err);
+    });
+  }
+</script>
 @endsection

@@ -98,7 +98,12 @@ class EvaluacionController extends Controller
         }
 
         // Obteniendo posición a asignar a la evaluación.
-        $numero_posiciones = Evaluacion::where('grado_id', $evaluacion->grado_id)
+        $numero_posiciones = Evaluacion::where('tipo', 'ACT')
+            ->where('grado_id', $evaluacion->grado_id)
+            ->where('materia_id', $evaluacion->materia_id)
+            ->where('trimestre', $evaluacion->trimestre)
+            ->orWhere('tipo', 'EXA')
+            ->where('grado_id', $evaluacion->grado_id)
             ->where('materia_id', $evaluacion->materia_id)
             ->where('trimestre', $evaluacion->trimestre)
             ->count();
@@ -241,7 +246,10 @@ class EvaluacionController extends Controller
         if (count($notas) > 0) {
 
             foreach ($notas as $nota) {
-                $nota->delete();
+
+                $evaluacion = Evaluacion::find($nota->evaluacion_id);
+                
+                $evaluacion->alumnos()->detach($nota->alumno_id);
             }
         }
 
@@ -362,7 +370,12 @@ class EvaluacionController extends Controller
     {
         $respuesta = false;
 
-        $evaluaciones = Evaluacion::where('grado_id', $evaluacion->grado_id)
+        $evaluaciones = Evaluacion::where('tipo', 'ACT')
+            ->where('grado_id', $evaluacion->grado_id)
+            ->where('materia_id', $evaluacion->materia_id)
+            ->where('trimestre', $evaluacion->trimestre)
+            ->orWhere('tipo', 'EXA')
+            ->where('grado_id', $evaluacion->grado_id)
             ->where('materia_id', $evaluacion->materia_id)
             ->where('trimestre', $evaluacion->trimestre)
             ->get();
