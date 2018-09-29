@@ -49,18 +49,23 @@ class NotaController extends Controller
                 ->orderBy('codigo', 'asc')
                 ->get();
 
-            foreach ($grados as $grado) {
+            if (count($grados) > 0) {
 
-                $m = DB::table('materias')
-                    ->join('grado_materia', 'materias.id', 'grado_materia.materia_id')
-                    ->join('grados', 'grado_materia.grado_id', 'grados.id')
-                    ->select('materias.*', 'grados.codigo as grado', 'grado_materia.id as gra_mat')
-                    ->where('grado_materia.grado_id', $grado->id)
-                    ->where('grado_materia.docente_id', $docente->id)
-                    ->orderBy('nombre', 'asc')
-                    ->get();
+                foreach ($grados as $grado) {
 
-                $materias->push($m);
+                    $m = DB::table('materias')
+                        ->join('grado_materia', 'materias.id', 'grado_materia.materia_id')
+                        ->join('grados', 'grado_materia.grado_id', 'grados.id')
+                        ->select('materias.*', 'grados.codigo as grado', 'grado_materia.id as gra_mat')
+                        ->where('grado_materia.grado_id', $grado->id)
+                        ->where('grado_materia.docente_id', $docente->id)
+                        ->orderBy('nombre', 'asc')
+                        ->get();
+
+                    if (count($m) > 0) {
+                        $materias->push($m);
+                    }
+                }
             }
         } else {
 
@@ -69,17 +74,22 @@ class NotaController extends Controller
                 ->orderBy('codigo', 'asc')
                 ->get();
 
-            foreach ($grados as $grado) {
+            if (count($grados) > 0) {
 
-                $m = DB::table('materias')
-                    ->join('grado_materia', 'materias.id', 'grado_materia.materia_id')
-                    ->join('grados', 'grado_materia.grado_id', 'grados.id')
-                    ->select('materias.*', 'grados.codigo as grado', 'grado_materia.id as gra_mat')
-                    ->where('grado_materia.grado_id', $grado->id)
-                    ->orderBy('nombre', 'asc')
-                    ->get();
+                foreach ($grados as $grado) {
 
-                $materias->push($m);
+                    $m = DB::table('materias')
+                        ->join('grado_materia', 'materias.id', 'grado_materia.materia_id')
+                        ->join('grados', 'grado_materia.grado_id', 'grados.id')
+                        ->select('materias.*', 'grados.codigo as grado', 'grado_materia.id as gra_mat')
+                        ->where('grado_materia.grado_id', $grado->id)
+                        ->orderBy('nombre', 'asc')
+                        ->get();
+
+                    if (count($m) > 0) {
+                        $materias->push($m);
+                    }
+                }
             }
         }
 

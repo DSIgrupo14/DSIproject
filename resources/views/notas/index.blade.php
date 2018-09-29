@@ -37,6 +37,7 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body">
+        @if (count($grados) > 0)
         <ul class="products-list product-list-in-box">
           @foreach ($grados as $grado)
           <li class="item">
@@ -51,13 +52,15 @@
           <!-- /.item -->
           @endforeach
         </ul>
+        @endif
       </div>
       <!-- /.box-body -->
     </div>
     <!-- /.box -->
   </div>
 
-  <div class="col-sm-6">
+  @if (count($materias) > 0)
+  <div class="col-sm-6">  
     <!-- Lista de grados -->
     @for ($i = 0; $i < count($materias); $i++)
     <div class="box box-primary collapsed-box">
@@ -82,6 +85,7 @@
     <!-- /.box -->
     @endfor
   </div>
+  @endif
 </div>
 @endsection
 
