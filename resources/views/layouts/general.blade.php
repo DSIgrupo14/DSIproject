@@ -180,6 +180,7 @@
             <li><a href=" {{ route('nivel.index')}} "><i class="fa fa-circle-o"></i> Niveles educativos</a></li>
             <li><a href=" {{ route('anios.index') }}"><i class="fa fa-circle-o"></i> Años escolares</a></li>
             <li><a href=" {{ route('materias.index')}} "><i class="fa fa-circle-o"></i> Materias</a></li>
+            <li><a href=" {{ route('valores.index')}} "><i class="fa fa-circle-o"></i> Valores</a></li>
           </ul>
         </li>
         <li class="treeview">

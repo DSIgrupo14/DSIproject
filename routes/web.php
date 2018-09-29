@@ -50,6 +50,9 @@ Route::group(['middleware' => 'auth'], function() {
 
         // Años
         Route::resource('anios','AnioController');
+
+        // Valores
+        Route::resource('valores','ValorController'); 
     });
 
     /**
