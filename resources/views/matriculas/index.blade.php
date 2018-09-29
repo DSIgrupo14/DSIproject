@@ -63,16 +63,16 @@
             @endif
             <td>
               @if ($matricula->editable == 1)
-              <a href="{{ route('matriculas.edit', $matricula->id) }}" class="btn btn-default btn-flat">
+              <a href="{{ route('matriculas.edit', $matricula->id) }}" class="btn btn-default btn-flat" title="Editar">
                 <i class="fa fa-wrench" aria-hidden="true"></i>
               </a>
-              <a href="" data-target="#modal-delete-{{ $matricula->id }}" data-toggle="modal" class="btn btn-danger btn-flat">
+              <a href="" data-target="#modal-delete-{{ $matricula->id }}" data-toggle="modal" class="btn btn-danger btn-flat" title="Eliminar">
                 <i class="fa fa-trash" aria-hidden="true"></i>
               </a>
               @endif
             </td>
           </tr>
-          <!-- Modal para dar de baja -->
+          <!-- Modal para eliminar matrícula -->
           @include('matriculas.modal')
           @endforeach
         </tbody>

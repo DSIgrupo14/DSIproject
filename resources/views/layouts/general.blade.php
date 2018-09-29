@@ -144,6 +144,11 @@
             <i class="fa fa-clipboard"></i> <span>Matrículas</span>
           </a>
         </li>
+        <li>
+          <a href="{{ route('notas.index') }}">
+            <i class="fa fa-star"></i> <span>Notas</span>
+          </a>
+        </li>
         @if (Auth::user()->direc())
         <li class="header">PERSONAL</li>
         <li>

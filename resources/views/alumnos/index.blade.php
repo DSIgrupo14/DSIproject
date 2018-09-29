@@ -47,13 +47,13 @@
             <td>{{ $alumno->nombre }} {{ $alumno->apellido }}</td>
             <td>{{ $alumno->genero }}</td>
             <td>
-              <a href="{{ route('alumnos.show', $alumno->id) }}" class="btn btn-default btn-flat">
+              <a href="{{ route('alumnos.show', $alumno->id) }}" class="btn btn-default btn-flat" title="Ver detalle">
                 <i class="fa fa-eye" aria-hidden="true"></i>
               </a>
-              <a href="{{ route('alumnos.edit', $alumno->id) }}" class="btn btn-default btn-flat">
+              <a href="{{ route('alumnos.edit', $alumno->id) }}" class="btn btn-default btn-flat" title="Editar">
                 <i class="fa fa-wrench" aria-hidden="true"></i>
               </a>
-              <a href="" data-target="#modal-delete-{{ $alumno->id }}" data-toggle="modal" class="btn btn-danger btn-flat">
+              <a href="" data-target="#modal-delete-{{ $alumno->id }}" data-toggle="modal" class="btn btn-danger btn-flat" title="Eliminar">
                 <i class="fa fa-trash" aria-hidden="true"></i>
               </a>
             </td>
