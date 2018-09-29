@@ -28,7 +28,7 @@
     <div class="box-body">
       <!-- Grado -->
       <div class="form-group{{ $errors->has('grado_id') ? ' has-error' : '' }}">
-        {!! Form::label('grado_id', 'Grado', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('grado_id', 'Grado *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::text('grado_v', $grado->codigo, ['class' => 'form-control', 'disabled', 'required']) !!}
           {!! Form::hidden('grado_id', $grado->id, ['required']) !!}
@@ -39,7 +39,7 @@
       </div>
       <!-- Materia -->
       <div class="form-group{{ $errors->has('materia_id') ? ' has-error' : '' }}">
-        {!! Form::label('materia', 'Materia', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('materia', 'Materia *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::text('materia_v', $materia->nombre, ['class' => 'form-control', 'disabled', 'required']) !!}
           {!! Form::hidden('materia_id', $materia->id, ['required']) !!}
@@ -50,7 +50,7 @@
       </div>
       <!-- Trimestre -->
       <div class="form-group{{ $errors->has('trimestre') ? ' has-error' : '' }}">
-        {!! Form::label('trimestre', 'Trimestre', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('trimestre', 'Trimestre *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::select('trimestre', ['1' => '1', '2' => '2', '3' => '3'], old('trimestre'), ['class' => 'form-control', 'placeholder' => '-- Seleccione un trimestre --', 'required'] ) !!}
           @if ($errors->has('trimestre'))
@@ -60,7 +60,7 @@
       </div>
       <!-- Tipo -->
       <div class="form-group{{ $errors->has('tipo') ? ' has-error' : '' }}">
-        {!! Form::label('tipo', 'Tipo', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('tipo', 'Tipo *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::select('tipo', ['ACT' => 'Actividad', 'EXA' => 'Examen'], old('tipo'), ['class' => 'form-control', 'placeholder' => '-- Seleccione un tipo de evaluación --', 'required'] ) !!}
           @if ($errors->has('tipo'))
@@ -70,7 +70,7 @@
       </div>
       <!-- Porcentaje -->
       <div class="form-group{{ $errors->has('porcentaje') ? ' has-error' : '' }}">
-        {!! Form::label('porcentaje', 'Porcentaje', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('porcentaje', 'Porcentaje *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           <div class="input-group">
             {!! Form::number('porcentaje', old('porcentaje'), ['class' => 'form-control', 'placeholder' => 'Porcentaje de la evaluación', 'required', 'min' => '1', 'max' => '35']) !!}

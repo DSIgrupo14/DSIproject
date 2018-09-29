@@ -27,7 +27,7 @@
     <div class="box-body">
       <!-- Nombre -->
       <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">
-        {!! Form::label('nombre', 'Nombre', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('nombre', 'Nombre *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::text('nombre', old('nombre'), ['class' => 'form-control', 'placeholder' => 'Nombre del alumno', 'required']) !!}
           @if ($errors->has('nombre'))
@@ -37,7 +37,7 @@
       </div>
       <!-- Apellido -->
       <div class="form-group{{ $errors->has('apellido') ? ' has-error' : '' }}">
-        {!! Form::label('apellido', 'Apellido', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('apellido', 'Apellido *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::text('apellido', old('apellido'), ['class' => 'form-control', 'placeholder' => 'Apellido del alumno', 'required']) !!}
           @if ($errors->has('apellido'))
@@ -47,7 +47,7 @@
       </div>
       <!-- NIE -->
       <div class="form-group{{ $errors->has('nie') ? ' has-error' : '' }}">
-        {!! Form::label('nie', 'NIE', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('nie', 'NIE *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::text('nie', old('nie'), ['class' => 'form-control', 'placeholder' => 'Número de Identificación Estudiantil', 'required', 'data-inputmask' => '"mask": "999999"', 'data-mask']) !!}
           @if ($errors->has('nie'))
@@ -57,7 +57,7 @@
       </div>
       <!-- Fecha de nacimiento -->
       <div class="form-group{{ $errors->has('fecha_nacimiento') ? ' has-error' : '' }} input-btn-alinear">
-        {!! Form::label('fecha_nacimiento', 'Fecha de nacimiento', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('fecha_nacimiento', 'Fecha de nacimiento *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6 input-group">
           {!! Form::text('fecha_nacimiento', old('fecha_nacimiento'), ['class' => 'form-control', 'placeholder' => 'dd/mm/yyyy', 'required', 'data-inputmask' => '"alias": "dd/mm/yyyy"', 'data-mask']) !!}
           @if ($errors->has('fecha_nacimiento'))
@@ -67,7 +67,7 @@
       </div>
       <!-- Género -->
       <div class="form-group{{ $errors->has('genero') ? ' has-error' : '' }}">
-        {!! Form::label('genero', 'Género', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('genero', 'Género *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::select('genero', ['F' => 'Femenino', 'M' => 'Masculino'], old('genero'), ['class' => 'form-control', 'placeholder' => '-- Seleccione un género --', 'required'] ) !!}
           @if ($errors->has('genero'))
@@ -77,7 +77,7 @@
       </div>
       <!-- Departamento -->
       <div class="form-group{{ $errors->has('departamento_id') ? ' has-error' : '' }}">
-        {!! Form::label('departamento_id', 'Departamento', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('departamento_id', 'Departamento *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::select('departamento_id', $departamentos, old('departamento_id'), ['class' => 'form-control', 'placeholder' => '-- Seleccione un departamento --', 'onchange' => 'cargarMunicipios(this.value);', 'required']) !!}
           @if ($errors->has('departamento_id'))
@@ -87,7 +87,7 @@
       </div>
       <!-- Municipio -->
       <div class="form-group{{ $errors->has('municipio_id') ? ' has-error' : '' }}">
-        {!! Form::label('municipio_id', 'Municipio', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('municipio_id', 'Municipio *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           <select id='municipio_id' name='municipio_id' class='form-control' required disabled>
             <option value='0'>-- Seleccione un municipio --</option>
@@ -109,7 +109,7 @@
       </div>
       <!-- Teléfono -->
       <div class="form-group{{ $errors->has('telefono') ? ' has-error' : '' }}">
-        {!! Form::label('telefono', 'Teléfono', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('telefono', 'Teléfono *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::text('telefono', old('telefono'), ['class' => 'form-control', 'placeholder' => 'Teléfono de contacto', 'required', 'data-inputmask' => '"mask": "99999999"', 'data-mask']) !!}
           @if ($errors->has('telefono'))
@@ -119,7 +119,7 @@
       </div>
       <!-- Responsable -->
       <div class="form-group{{ $errors->has('responsable') ? ' has-error' : '' }}">
-        {!! Form::label('responsable', 'Responsable', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('responsable', 'Responsable *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::text('responsable', old('responsable'), ['class' => 'form-control', 'placeholder' => 'Nombre del responsable del alumno', 'required']) !!}
           @if ($errors->has('responsable'))

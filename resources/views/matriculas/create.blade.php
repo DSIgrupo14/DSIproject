@@ -32,7 +32,7 @@
     <div class="box-body">
       <!-- Alumno -->
       <div class="form-group{{ $errors->has('alumno_id') ? ' has-error' : '' }}">
-        {!! Form::label('alumno_id', 'Alumno', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('alumno_id', 'Alumno *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::select('alumno_id', $alumnos, old('alumno_id'), ['class' => 'form-control select2', 'placeholder' => '-- Seleccione un alumno --', 'style' => 'width: 100%', 'required']) !!}
           @if ($errors->has('alumno_id'))
@@ -42,7 +42,7 @@
       </div>
       <!-- Grado -->
       <div class="form-group{{ $errors->has('grado_id') ? ' has-error' : '' }}">
-        {!! Form::label('grado_id', 'Grado', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('grado_id', 'Grado *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::select('grado_id', $grados, old('grado_id'), ['class' => 'form-control select2', 'placeholder' => '-- Seleccione un grado --', 'style' => 'width: 100%', 'required']) !!}
           @if ($errors->has('grado_id'))
