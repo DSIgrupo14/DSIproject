@@ -130,10 +130,10 @@
           <li>
             <span class="text">{{ $evaluacion->tipo }} ({{ $evaluacion->porcentaje * 100 }}%)</span>
             <div class="tools">
-              @if ($evaluacion->posicion == count($evaluaciones) || $evaluacion->posicion != 1)
+              @if (($evaluacion->posicion == count($evaluaciones) && count($evaluaciones) != 1) || $evaluacion->posicion != 1)
               <a href="{{ route('evaluaciones.subir', ['gra_mat' => $gra_mat, 'evaluacion' => $evaluacion->id]) }}" title="Subir"><i class="fa fa-chevron-up"></i></a>
               @endif
-              @if ($evaluacion->posicion == 1 || $evaluacion->posicion != count($evaluaciones))
+              @if (($evaluacion->posicion == 1 && count($evaluaciones) != 1) || $evaluacion->posicion != count($evaluaciones))
               <a href="{{ route('evaluaciones.bajar', ['gra_mat' => $gra_mat, 'evaluacion' => $evaluacion->id]) }}" title="Bajar"><i class="fa fa-chevron-down"></i></a>
               @endif
               <a href="{{ route('evaluaciones.edit', $evaluacion->id) }}" title="Editar"><i class="fa fa-wrench"></i></a>
