@@ -274,6 +274,15 @@ class NotaController extends Controller
                 return back();
             }
 
+            if($notas_v[$i] < 0 || $notas_v[$i] > 10) {
+                flash('
+                    <h4>Error en Ingreso de Datos</h4>
+                    <p>La nota debe estar entre 0 y 10.</p>
+                ')->error()->important();
+
+                return back();
+            }
+
             $nota = DB::table('alumno_evaluacion')
                 ->where('id', $notas_id[$i])
                 ->first();

@@ -228,14 +228,44 @@ class MatriculaController extends Controller
             abort(403);
         }
 
-        /* FALTA VALIDACIÓN PARA SOLO ELIMINAR MATRÍCULA CUANDO NO HAY NOTAS REGISTRADAS DEL ALUMNO EN EL GRADO MATRICULADO */
+        // Eliminando solo matrículas con notas mayores a cero.
+        $notas = $matricula->alumno->evaluaciones->where('grado_id', $matricula->grado_id);
 
-        //$matricula->delete();
+        $borrar = true;
 
-        flash('
-            <h4>Eliminación de Matrícula</h4>
-            <p>La matrícula de <strong>' . $matricula->alumno->nombre . ' ' . $matricula->alumno->apellido . '</strong> en el grado <strong>' . $matricula->grado->codigo . '</strong> se ha eliminado correctamente.</p>
-        ')->error()->important();
+        foreach ($notas as $nota) {
+            if ($nota->pivot->nota > 0) {
+                $borrar = false;
+                break;
+            }
+        }
+
+        if ($borrar) {
+            
+            // Eliminando todas las notas relacionadas.
+            if (count($notas) > 0) {
+
+                foreach ($notas as $nota) {
+                    $n = DB::table('alumno_evaluacion')
+                        ->where('alumno_id', $nota->pivot->alumno_id)
+                        ->where('evaluacion_id', $nota->pivot->evaluacion_id)
+                        ->delete();
+                }
+            }
+
+            $matricula->delete();
+
+            flash('
+                <h4>Eliminación de Matrícula</h4>
+                <p>La matrícula de <strong>' . $matricula->alumno->nombre . ' ' . $matricula->alumno->apellido . '</strong> en el grado <strong>' . $matricula->grado->codigo . '</strong> se ha eliminado correctamente.</p>
+            ')->error()->important();
+        } else {
+            flash('
+                <h4>Eliminación de Matrícula</h4>
+                <p>La matrícula de <strong>' . $matricula->alumno->nombre . ' ' . $matricula->alumno->apellido . '</strong> en el grado <strong>' . $matricula->grado->codigo . '</strong> no se puede eliminar porque ya tiene notas mayores a cero registradas.</p>
+            ')->warning()->important();
+        }
+
 
         return redirect()->route('matriculas.index');
     }
