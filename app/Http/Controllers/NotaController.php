@@ -8,6 +8,7 @@ use DSIproject\Docente;
 use DSIproject\Evaluacion;
 use DSIproject\Grado;
 use DSIproject\Materia;
+use DSIproject\Valor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection as Collection;
 
@@ -314,5 +315,99 @@ class NotaController extends Controller
         ')->success()->important();
 
         return redirect()->route('notas.edit', $request->gra_mat);
+    }
+
+    /**
+     * Muestra el cuadro de notas de conducta para edición.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function editConducta(Request $request, $id)
+    {
+        $grado = Grado::where('id', $id)->first();
+
+        if (!$grado) {
+            abort(404);
+        }
+
+        // Si campo trimestre es nulo.
+        if (!$request->trimestre) {
+            $request->trimestre = 1;
+        }
+
+        $valores = Valor::where('estado', 1)->get();
+
+        $matriculas_sin_orden = $grado->matriculas;
+        $matriculas = $matriculas_sin_orden->sortBy('apellido')->values()->all();
+
+        // Arreglos con las notas de conducta.
+        $notas = Collection::make();
+
+        foreach ($matriculas as $matricula) {
+
+            $nota = Collection::make();
+
+            foreach ($valores as $valor) {
+                $n = DB::table('alumno_valor')
+                    ->where('alumno_id', $matricula->alumno->id)
+                    ->where('valor_id', $valor->id)
+                    ->where('grado_id', $grado->id)
+                    ->where('trimestre', $request->trimestre)
+                    ->first();
+
+                // Si no hay registro.
+                if (! $n) {
+                    $valor->alumnos()->attach($matricula->alumno->id, ['nota' => null, 'grado_id' => $grado->id, 'trimestre' => $request->trimestre]);
+
+                    $n = DB::table('alumno_valor')
+                        ->where('alumno_id', $matricula->alumno->id)
+                        ->where('valor_id', $valor->id)
+                        ->where('grado_id', $grado->id)
+                        ->where('trimestre', $request->trimestre)
+                        ->first();
+                }
+
+                $nota->push($n);
+            }
+
+            // Notas.
+            $notas->push($nota);
+        }
+
+        return view('conducta.edit')
+            ->with('grado', $grado)
+            ->with('trimestre', $request->trimestre)
+            ->with('valores', $valores)
+            ->with('matriculas', $matriculas)
+            ->with('notas', $notas);
+    }
+
+    /**
+     * Actualiza las notas de conducta especificadas en la base de datos.
+     *
+     * @param  \DSIproject\Http\Requests  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateConducta(Request $request)
+    {
+        // Notas de evaluaciones de tipo examen y actividad.
+        $notas_v = $request->notas_v;
+
+        $notas_id = $request->notas_id;
+
+        for ($i = 0; $i < count($notas_v); $i++) {
+            $nota = DB::table('alumno_valor')
+                ->where('id', $notas_id[$i])
+                ->update(['nota' => $notas_v[$i]]);
+        }
+
+        flash('
+            <h4>Actualización de Notas</h4>
+            <p>Las notas se han actualizado correctamente.</p>
+        ')->success()->important();
+
+        return redirect()->back();
     }
 }

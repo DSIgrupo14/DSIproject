@@ -17,11 +17,13 @@ class CreateAlumnoValorTable extends Migration
             $table->increments('id');
             $table->integer('alumno_id')->unsigned();
             $table->integer('valor_id')->unsigned();
+            $table->integer('grado_id')->unsigned();
             $table->char('trimestre', 1);
-            $table->string('nota', 2);
+            $table->string('nota', 2)->nullable();
 
             $table->foreign('alumno_id')->references('id')->on('alumnos');
             $table->foreign('valor_id')->references('id')->on('valores');
+            $table->foreign('grado_id')->references('id')->on('grados');
 
             $table->timestamps();
         });

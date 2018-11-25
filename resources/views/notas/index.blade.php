@@ -45,7 +45,7 @@
               <i class="fa fa-graduation-cap fa-3x color-graduation-cap"></i>
             </div>
             <div class="product-info">
-              <a href="#" class="product-title">{{ $grado->codigo }}
+              <a href="{{ route('conducta.edit', $grado->id) }}" class="product-title">{{ $grado->codigo }}
               <span class="product-description">{{ $grado->nivel->nombre }} "{{ $grado->seccion }}"</span>
             </div>
           </li>
