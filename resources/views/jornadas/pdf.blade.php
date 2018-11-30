@@ -14,7 +14,7 @@ Santiago Nonualco, La Paz<br>
 Codigo 12053 <br>
 </h2>
 <center>
-<img src=" #" style="width: 100px; height:100px;" >
+<img src="{{ asset('img/sistema/logo_ceaa.png') }}" style="width: 104px; height:139px;" >
 </center>
 <h3 align="center">Reporte de Docentes del centro escolar</h3>
 
@@ -24,6 +24,7 @@ Codigo 12053 <br>
           <tr>
             <th>NIP</th>
             <th>Docente</th>
+            <th>Fecha</th>
             <th>Hora de entrada</th>
             <th>Hora de salida</th>
           </tr>
@@ -31,8 +32,9 @@ Codigo 12053 <br>
         <tbody>
           @foreach($jornadas as $jornada)
           <tr>
-            <td>{{ $jornada->nip }}</td>
-            <td>{{ $jornada->nombre }} {{ $jornada->apellido }}</td>
+            <td>{{ $jornada->docente->nip }}</td>
+            <td>{{ \Carbon\Carbon::parse($jornada->fecha)->format('d/m/Y') }}</td>
+            <td>{{ $jornada->docente->user->nombre }} {{ $jornada->docente->user->apellido }}</td>
             <td>{{ $jornada->hora_entrada }}</td>
             <td>{{ $jornada->hora_salida }}</td>
             </tr>

@@ -2,6 +2,7 @@
 
 namespace DSIproject\Http\Controllers;
 
+use Carbon\Carbon;
 use DB;
 use DSIproject\Anio;
 use DSIproject\Docente;
@@ -410,4 +411,66 @@ class NotaController extends Controller
 
         return redirect()->back();
     }
+
+    /**
+     * Muestra el formulario para crear un reporte de notas.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function createReporte($id)
+    {
+        $grado = Grado::find($id);
+
+        if (!$grado) {
+            abort(404);
+        }
+
+        return view('notas.create-reporte')->with('grado', $grado);
+    }
+
+    /**
+     * Genera un reporte de notas para descargar.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function downloadReporte(Request $request)
+    {
+        // Validando datos de entrada.
+        $request_data = array(
+            'grado_id'  => 'required',
+            'tipo'      => 'required',
+        );
+
+        if ($request->tipo == 'T') {
+            array_push($request_data, ['trimestre' => 'required']);
+        }
+
+        $this->validate(request(), $request_data);
+        
+        // Fecha de creación.
+        $hoy = Carbon::now()->format('d/m/y h:i A');
+
+        // Grado.
+        $grado = Grado::find($request->grado_id);
+
+        // Materias.
+        $materias = $grado->materias;
+
+        // Alumnos matriculados en el grado.
+        $matriculas_sin_orden = $grado->matriculas;
+        $matriculas = $matriculas_sin_orden->sortBy('apellido')->values()->all();
+
+        // Valores.
+        $valores = Valor::where('estado', 1)->get();
+
+        //$pdf = \PDF::loadView('reportes.comprobante', ['reservacion' => $reservacion, 'hoy' => $hoy])->setPaper('letter', 'landscape');
+
+        $pdf = \PDF::loadView('reportes.comprobante', ['hoy' => $hoy]);
+
+        return $pdf->stream('reporte_de_notas.pdf');
+    }
+
+    
 }

@@ -45,11 +45,10 @@
         </thead>
         <tbody>
           @foreach($anios as $anio)
-          @if($anio->estado!=0)
           <tr>
             <td>{{ $anio->numero }} </td>
-            <td>{{ $anio->activo }}</td>
-            <td>{{ $anio->editable }}</td>
+            <td><input type="checkbox" disabled @if ($anio->activo == 1) checked @endif></td>
+            <td><input type="checkbox" disabled @if ($anio->editable == 1) checked @endif></td>
             <td>
               <a href="{{ route('anios.edit', $anio->id) }}" class="btn btn-default btn-flat">
                 <i class="fa fa-wrench" aria-hidden="true"></i>
@@ -61,7 +60,6 @@
           </tr>
           <!-- Modal para dar de baja -->
           @include('anios.modal')
-          @endif
           @endforeach
         </tbody>
       </table>

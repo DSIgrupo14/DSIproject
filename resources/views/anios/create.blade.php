@@ -28,47 +28,40 @@
   {!! Form::open(['route' => 'anios.store', 'autocomplete' => 'off', 'method' => 'POST', 'class' => 'form-horizontal']) !!}
     <div class="box-body">
 
-      <!-- Año -->
+      <!-- Número -->
       <div class="form-group{{ $errors->has('numero') ? ' has-error' : '' }}">
         {!! Form::label('numero', 'Año', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::text('numero', old('numero'), ['class' => 'form-control', 'placeholder' => 'Año Escolar', 'required']) !!}
+          {!! Form::number('numero', old('numero'), ['class' => 'form-control', 'placeholder' => 'Año Escolar', 'required']) !!}
             @if ($errors->has('numero'))
             <span class="help-block">{{ $errors->first('numero') }}</span>
             @endif
         </div>
       </div>
 
-    <!-- Año -->
-      <div class="form-group{{ $errors->has('activo') ? ' has-error' : '' }}">
-        {!! Form::label('activo', 'Activo', ['class' => 'col-sm-3 control-label']) !!}
-        <div class="col-sm-6">
-          <select class="form-control" name="activo">
-           <option>--- Elige una Opcion ---</option>
-            <option>Activo</option>
-            <option>Desactivado</option>
-          </select>
-            @if ($errors->has('activo'))
-            <span class="help-block">{{ $errors->first('activo') }}</span>
-            @endif
+      <!-- Activo -->
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-6">
+          <div class="checkbox">
+            <label>
+              {!! Form::checkbox('activo', 1) !!} Activo
+              <span class="help-block"><small>Indica si este es el año escolar que actualmente se está impartiendo. Permite visualizar primero los registros pertenecientes a este año. Solo puede existir un año escolar activo, al marcar, a todos los demás años registrados se le asigna el valor de inactivo. Si el año es activo, automáticamente es editable.</small></span>
+            </label>
+          </div>
         </div>
       </div>
 
-    <!-- Año -->
-      <div class="form-group{{ $errors->has('editable') ? ' has-error' : '' }}">
-        {!! Form::label('editable', 'Editable', ['class' => 'col-sm-3 control-label']) !!}
-        <div class="col-sm-6">
-         <select class="form-control" name="editable">
-          <option>--- Elige una Opcion ---</option>
-            <option>Editable</option>
-            <option>No Editable</option>
-          </select>
-            @if ($errors->has('editable'))
-            <span class="help-block">{{ $errors->first('editable') }}</span>
-            @endif
+      <!-- Editable -->
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-6">
+          <div class="checkbox">
+            <label>
+              {!! Form::checkbox('editable', 1) !!} Editable
+              <span class="help-block"><small>Indica si es permitido que registros pertenecientes a este año escolar puedan ser editados. En caso de no marcar, los registros pertenecientes a este año no podrán visualizarse en el sistema.</small></span>
+            </label>
+          </div>
         </div>
       </div>
-    </div>
 
 
     <!-- /.box-body -->

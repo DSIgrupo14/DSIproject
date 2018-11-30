@@ -86,7 +86,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::put('notas/conducta/update', 'NotaController@updateConducta')->name('conducta.update');
 
     // Evaluaciones.
-    //Route::resource('evaluaciones', 'EvaluacionController');
     Route::get('evaluaciones/{gra_mat}/create', 'EvaluacionController@create')->name('evaluaciones.create');
     Route::post('evaluaciones/store', 'EvaluacionController@store')->name('evaluaciones.store');
     Route::get('evaluaciones/{gra_mat}/{evaluacion}/subir', 'EvaluacionController@subir')->name('evaluaciones.subir');
@@ -94,6 +93,10 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('evaluaciones/{evaluacion}/edit', 'EvaluacionController@edit')->name('evaluaciones.edit');
     Route::put('evaluaciones/{evaluacion}/update', 'EvaluacionController@update')->name('evaluaciones.update');
     Route::get('evaluaciones/{evaluacion}', 'EvaluacionController@destroy')->name('evaluaciones.destroy');
+
+    // Reportes de notas.
+    Route::get('notas/{grado}/reportes', 'NotaController@createReporte')->name('notas.create-reporte');
+    Route::post('notas/reportes/descargar', 'NotaController@downloadReporte')->name('notas.reporte');
 
     // Vista de la Pagina Reportes
     Route::get('reportes', function(){

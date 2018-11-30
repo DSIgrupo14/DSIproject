@@ -3,6 +3,7 @@
 namespace DSIproject\Http\Controllers;
 
 use DSIproject\Materia;
+use DSIproject\Http\Requests\MateriaRequest;
 use Laracasts\Flash\Flash;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -48,7 +49,7 @@ class MateriaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MateriaRequest $request)
     {
         $materia = new Materia($request->all());
         $materia->estado = 1;
@@ -98,7 +99,7 @@ class MateriaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(MateriaRequest $request, $id)
     {
         $materia = Materia::find($id);
 

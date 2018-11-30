@@ -9,7 +9,7 @@
   <i class="fa fa-star"></i>
   <a href="{{ route('notas.index') }}">Notas</a>
 </li>
-<li class="active">{{ $grado->codigo }}</li>
+<li class="active">Notas de Conducta</li>
 @endsection
 
 @section('contenido')
@@ -18,9 +18,9 @@
   	<!-- Custom Tabs -->
     <div class="nav-tabs-custom">
       <ul class="nav nav-tabs">
-        <li class="active"><a href="#" data-toggle="tab">Notas de conducta</a></li>
-        <li><a href="#" data-toggle="tab">Ranking</a></li>
-        <li><a href="#" data-toggle="tab">Reportes</a></li>
+        <li class="active"><a href="#">Notas de Conducta</a></li>
+        <li><a href="#">Ranking</a></li>
+        <li><a href="{{ route('notas.create-reporte', $grado->id) }}">Reporte de Notas</a></li>
       </ul>
       <div class="tab-content">
         <div class="tab-pane active">
@@ -90,12 +90,6 @@
               <h4>No se encontraron notas</h4>
             </div>
           @endif
-        </div>
-        <!-- /.tab-pane -->
-        <div class="tab-pane">
-        </div>
-        <!-- /.tab-pane -->
-        <div class="tab-pane">
         </div>
         <!-- /.tab-pane -->
       </div>

@@ -2,8 +2,9 @@
 
 namespace DSIproject\Http\Controllers;
 
-use Illuminate\Http\Request;
 use DSIproject\Anio;
+use DSIproject\Http\Requests\AnioRequest;
+use Illuminate\Http\Request;
 use Laracasts\Flash\Flash;
 
 class AnioController extends Controller
@@ -47,29 +48,35 @@ class AnioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AnioRequest $request)
     {
-
-        $activo=$_POST['activo'];
-        $editable=$_POST['editable'];
-
         $anio = new Anio($request->all());
 
-        if($activo!='Activo'){
-            $anio->activo =0;
-        } else{
-            $anio->activo=1;
-        }
-
-        
-
-        if($editable!='Editable'){
-            $anio->editable =0;
-        }else{
-            $anio->editable=1;
-        }
-
         $anio->estado = 1;
+
+        if ($request->activo == 1) {
+            $anios = Anio::all();
+
+            foreach ($anios as $a) {
+                $a->activo = 0;
+
+                $a->save();
+            }
+
+            $anio->activo = 1;
+        } else {
+            $anio->activo = 0;
+        }
+
+        if ($request->editable == 1) {
+            $anio->editable = 1;
+        } else {
+            if ($anio->activo == 1) {
+                $anio->editable = 1;
+            } else {
+                $anio->editable = 0;
+            }
+        }
 
         $anio->save();
 
@@ -117,36 +124,49 @@ class AnioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AnioRequest $request, $id)
     {
-        $activo=$_POST['activo'];
-        $editable=$_POST['editable'];
-
         $anio = Anio::find($id);
 
         if (!$anio || $anio->estado == 0) {
             abort(404);
         }
 
-        if($activo!='Activo'){
-            $anio->activo =0;
-        } else{
-            $anio->activo=1;
+        $anio->numero = $request->numero;
+
+        if ($request->activo == 1 && $anio->activo == 0) {
+            $anios = Anio::all();
+
+            foreach ($anios as $a) {
+                $a->activo = 0;
+
+                $a->save();
+            }
+
+            $anio->activo = 1;
+        } elseif ($request->activo == 0 && $anio->activo == 1) {
+            flash('
+                <h4>No puede quitar el valor de activo a este año</h4>
+                <p>Asigne a otro año el valor de activo, así este año pasará a ser inactivo.</p>
+            ')->error()->important();
+
+            return back();
         }
 
-
-        if($editable!='Editable'){
-            $anio->editable =0;
-        }else{
-            $anio->editable=1;
+        if ($request->editable == 1) {
+            $anio->editable = 1;
+        } else {
+            if ($anio->activo == 1) {
+                $anio->editable = 1;
+            } else {
+                $anio->editable = 0;
+            }
         }
 
-        $anio->fill($request->all());
-        
         $anio->save();
 
         flash('
-            <h4>Edición de Año Escolar </h4>
+            <h4>Edición de Año Escolar</h4>
             <p>El Año Escolar <strong>' . $anio->numero . '</strong> se ha editado correctamente.</p>
         ')->success()->important();
 
@@ -161,6 +181,30 @@ class AnioController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $anio = Anio::find($id);
+
+        if (!$anio || $anio->estado == 0) {
+            abort(404);
+        }
+
+        if ($anio->activo == 1) {
+            flash('
+                <h4>Error al Dar de Baja el Año Escolar</h4>
+                <p>Este es el año activo, por lo tanto no se puede dar de baja.</p>
+            ')->error()->important();
+
+            return back();
+        }
+
+        $anio->estado = 0;
+
+        $anio->save();
+
+        flash('
+            <h4>Baja de Año Escolar</h4>
+            <p>El año escolar <strong>' . $anio->numero . '</strong> se ha dado de baja correctamente.</p>
+        ')->error()->important();
+
+        return redirect()->route('anios.index');
     }
 }
