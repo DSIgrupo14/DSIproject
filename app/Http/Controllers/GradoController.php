@@ -214,14 +214,22 @@ class GradoController extends Controller
 
 
 
-    public function pdf()
-    {        
+public function pdf(Request $request)
+    {
+         if ($request) {
+            $query = trim($request->get('searchText'));
 
-        $grados = Grado::all(); 
+            $grados = Grado::where('estado', 1)
+                ->where('codigo', 'like', '%' . $query . '%')
+                ->orWhere('estado', 1)
+                ->where('seccion', 'like', '%' . $query . '%')
+                ->orderBy('id', 'asc')
+                ->paginate(25);
+        }
 
-        $pdf = PDF::loadView('grados.pdf', compact('grados'));
-
-        return $pdf->download('grados.pdf');
+        return view('grados.pdf')
+            ->with('grados', $grados)
+            ->with('searchText', $query);
     }
 
     /**

@@ -37,11 +37,9 @@
       <table class="table table-hover table-striped table-bordered table-quitar-margen">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Nombre</th>
             <th>NIP</th>
+            <th>Nombre</th>
             <th>Especialidad</th>
-            <th>Imagen</th>
             <th>Opciones</th>
           </tr>
         </thead>
@@ -49,12 +47,10 @@
           @foreach($docentes as $docente)
           @if($docente->estado!=0)
           <tr>
-            <td>{{ $docente->id }}</td>
+            <td>{{ $docente->nip }}</td>
             <td>{{ $docente->user->nombre }}
                  {{$docente->user->apellido}}                           </td>
-            <td>{{ $docente->nip }}</td>
             <td>{{ $docente->especialidad }}</td>
-            <td>{{ $docente->imagen }}</td>
             <td>
               <a href="{{ route('docentes.edit', $docente->id) }}" class="btn btn-default btn-flat">
                 <i class="fa fa-wrench" aria-hidden="true"></i>

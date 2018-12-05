@@ -155,13 +155,21 @@ class DocenteController extends Controller
         return redirect()->route('docentes.index');
     }
 
-    public function pdf()
+    public function pdf(Request $request)
     {        
+        if ($request) {
+            $query = trim($request->get('searchText'));
 
-        $docentes = Docente::all(); 
+            $docentes = Docente::where('estado', 1)
+                ->where('user_id', 'like', '%' . $query . '%')
+                ->orWhere('estado', 1)
+                ->where('nip', 'like', '%' . $query . '%')
+                ->orderBy('id', 'asc')
+                ->paginate(25);
+        }
 
-        $pdf = PDF::loadView('docente.pdf', compact('docentes'));
-
-        return $pdf->download('docentes.pdf');
+        return view('docente.pdf')
+            ->with('docentes', $docentes)
+            ->with('searchText', $query);
     }
 }

@@ -146,13 +146,21 @@ class MateriaController extends Controller
     }
 
 
-    public function pdf()
-    {        
+  public function pdf(Request $request)
+    {
+         if ($request) {
+            $query = trim($request->get('searchText'));
 
-        $materias = Materia::all(); 
+            $materias = Materia::where('estado', 1)
+                ->where('codigo', 'like', '%' . $query . '%')
+                ->orWhere('estado', 1)
+                ->where('nombre', 'like', '%' . $query . '%')
+                ->orderBy('id', 'asc')
+                ->paginate(25);
+        }
 
-        $pdf = PDF::loadView('materias.pdf', compact('materias'));
-
-        return $pdf->download('materias.pdf');
+        return view('materias.pdf')
+            ->with('materias', $materias)
+            ->with('searchText', $query);
     }
 }

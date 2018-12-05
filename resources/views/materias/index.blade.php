@@ -37,7 +37,6 @@
       <table class="table table-hover table-striped table-bordered table-quitar-margen">
         <thead>
           <tr>
-            <th>Id</th>
             <th>Codigo</th>
             <th>Nombre</th>
           </tr>
@@ -45,7 +44,6 @@
         <tbody>
           @foreach($materias as $materia)
           <tr>
-            <td>{{ $materia->id }}</td>
             <td>{{ $materia->codigo }}</td>
             <td>{{ $materia->nombre }}</td>
             <td>

@@ -37,7 +37,6 @@
       <table class="table table-hover table-striped table-bordered table-quitar-margen">
         <thead>
           <tr>
-            <th>ID</th>
             <th>Codigo</th>
             <th>Nivel</th>
             <th>Año</th>
@@ -49,7 +48,6 @@
         <tbody>
           @foreach($grados as $grado)
           <tr>
-            <td>{{ $grado->id }}</td>
             <td>{{ $grado->codigo }}</td>
             <td>{{ $grado->nivel->nombre }}</td>
             <td>{{ $grado->anio->numero }}</td>

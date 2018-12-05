@@ -37,7 +37,6 @@
       <table class="table table-hover table-striped table-bordered table-quitar-margen">
         <thead>
           <tr>
-            <th>Id</th>
             <th>Valor</th>
             <th>Opciones</th>
           </tr>
@@ -46,7 +45,6 @@
           @foreach($valores as $valor)
           @if($valor->estado!=0)
           <tr>
-            <td>{{ $valor->id }} </td>
             <td>{{ $valor->valor }}</td>
             <td>
               <a href="{{ route('valores.edit', $valor->id) }}" class="btn btn-default btn-flat">

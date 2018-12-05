@@ -359,13 +359,54 @@ class JornadaController extends Controller
         }
     }
 
-        public function pdf()
+        public function pdf(Request $request)
     {        
+if ($request) {
+            $query = trim($request->get('searchText'));
 
-        $jornadas = Jornada::all(); 
+            $hoy = Carbon::now();
+            $hoy = Carbon::parse($hoy)->format('Y-m-d');
 
-        $pdf = PDF::loadView('jornadas.pdf', compact('jornadas'));
+            if ($request->get('searchFecha') != null) {
 
-        return $pdf->download('jornadas.pdf');
+                // Validación de la fecha.
+                $fecha = $this->crearFecha($request->get('searchFecha'));
+
+                if ($fecha == null) {
+                    $fecha = $hoy;
+                }
+            } else {
+                $fecha = $hoy;
+            }
+
+            $jornadas = DB::table('jornadas')
+                ->join('docentes', 'jornadas.docente_id', 'docentes.id')
+                ->join('users', 'docentes.user_id', 'users.id')
+                ->select('jornadas.*', 'users.nombre as nombre', 'users.apellido as apellido', 'users.dui as dui', 'docentes.nip as nip', 'docentes.estado')
+                ->where('docentes.estado', 1)
+                ->where('fecha', $fecha)
+                ->where('nombre', 'like', '%' . $query . '%')
+                ->orWhere('docentes.estado', 1)
+                ->where('fecha', $fecha)
+                ->where('apellido', 'like', '%' . $query . '%')
+                ->orWhere('docentes.estado', 1)
+                ->where('fecha', $fecha)
+                ->where('dui', 'like', '%' . $query . '%')
+                ->orWhere('docentes.estado', 1)
+                ->where('fecha', $fecha)
+                ->where('nip', 'like', '%' . $query . '%')
+                ->orderBy('nombre', 'asc')
+                ->paginate(25);
+        }
+        $fecha = Carbon::parse($fecha)->format('d/m/Y');
+        return view('jornadas.pdf')
+            ->with('jornadas', $jornadas)
+            ->with('searchText', $query)
+            ->with('fecha', $fecha);
+       // $jornadas = Jornada::all(); 
+
+        //$pdf = PDF::loadView('jornadas.pdf', compact('jornadas'));
+
+        //$pdf->download('jornadas.pdf');
     }
 }
