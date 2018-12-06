@@ -168,6 +168,13 @@
             <i class="fa fa-book"></i> <span>Reportes</span>
           </a>
         </li>
+        @if (Auth::user()->direc() || Auth::user()->secre())
+        <li>
+          <a href="{{ route('pagos.index') }}">
+            <i class="fa fa-cutlery"></i> <span>Pago de alimentos</span>
+          </a>
+        </li>
+        @endif
         @if (Auth::user()->direc())
         <li class="treeview">
           <a href="#">
