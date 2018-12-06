@@ -174,6 +174,11 @@
             <i class="fa fa-cutlery"></i> <span>Pago de alimentos</span>
           </a>
         </li>
+        <li>
+          <a href="{{ route('recursos.index') }}">
+            <i class="glyphicon glyphicon-tasks"></i> <span>Recursos</span>
+          </a>
+        </li>
         @endif
         @if (Auth::user()->direc())
         <li class="treeview">
