@@ -65,6 +65,11 @@ Route::group(['middleware' => 'auth'], function() {
 
         //Jornada laboral
         Route::resource('jornadas','JornadaController');
+
+        // Pago de alimentos.
+        Route::resource('pagos', 'PagoController');
+        Route::post('pagos/{pago}/store', 'PagoController@store2')->name('pagos.store2');
+        Route::delete('pagos/{pago}/destroy', 'PagoController@destroy2')->name('pagos.destroy2');
     });
 
     // Alumnos.

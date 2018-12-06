@@ -34,4 +34,14 @@ class Anio extends Model
     {
         return $this->hasMany('DSIproject\Grado');
     }
+
+    /**
+     * Obtiene los pagos que posee el año.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function pagos()
+    {
+        return $this->hasMany('DSIproject\Pago');
+    }
 }

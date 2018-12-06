@@ -96,4 +96,16 @@ class Alumno extends Model
     {
         return $this->nombre . ' ' . $this->apellido;
     }
+
+    /**
+     * Obtiene los pagos que se han registrado del alumno.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function pagos()
+    {
+        return $this->belongsToMany('DSIproject\Pago', 'alumno_pago')
+            ->withPivot('pago')
+            ->withTimestamps();
+    }
 }
