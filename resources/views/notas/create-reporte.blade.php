@@ -74,7 +74,8 @@
                   <div class="col-sm-offset-3 col-sm-6">
                     <div class="checkbox">
                       <label>
-                        {!! Form::checkbox('conducta', old('conducta')) !!} Incluir notas de conducta
+                        {!! Form::checkbox('conducta', 1) !!} Incluir notas de conducta
+                        <span class="help-block"><small>Permite que en el reporte aparezcan las columnas con los aspectos morales y cívicos evaluados y su nota correspondiente.</small></span>
                       </label>
                     </div>
                   </div>
