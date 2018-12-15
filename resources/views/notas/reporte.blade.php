@@ -97,10 +97,10 @@
         </tr>
         </thead>
         <tbody>
-        @for ($i = 0; $i < count($matriculas); $i++)
+        @for ($i = 0; $i < count($matriculas_reales); $i++)
         <tr>
           <td style="text-align: right;">{{ $i + 1 }}.</td>
-          <td>{{ $matriculas[$i]->alumno->apellido }}, {{ $matriculas[$i]->alumno->nombre }}</td>
+          <td>{{ $matriculas_reales[$i]->alumno->apellido }}, {{ $matriculas_reales[$i]->alumno->nombre }}</td>
           @for ($j = 0; $j < count($materias); $j++)
           <td>{{ $notas[$j][$i] }}</td>
           @endfor
@@ -139,7 +139,7 @@
       <table class="table table-bordered">
         <thead>
           <tr>
-            <th colspan="5" style="text-align: center;">Estadísticas</th>
+            <th colspan="6" style="text-align: center;">Estadísticas</th>
           </tr>
           <tr>
             <th>Género</th>

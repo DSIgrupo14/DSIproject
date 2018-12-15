@@ -75,8 +75,19 @@
                   <div class="col-sm-offset-3 col-sm-6">
                     <div class="checkbox">
                       <label>
-                        {!! Form::checkbox('conducta', 1) !!} Incluir notas de conducta
+                        {!! Form::checkbox('conducta', 1) !!} Incluir notas de conducta.
                         <span class="help-block" style="margin-bottom: 0;"><small>Permite que en el reporte aparezcan las columnas de educación moral y cívica.</small></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <!-- Desertados -->
+                <div class="form-group">
+                  <div class="col-sm-offset-3 col-sm-6">
+                    <div class="checkbox">
+                      <label>
+                        {!! Form::checkbox('desercion', 1) !!} Incluir notas de alumnos que se retiraron.
+                        <span class="help-block"><small>Permite que en el reporte aparezcan las notas de los alumnos que desertaron.</small></span>
                       </label>
                     </div>
                   </div>

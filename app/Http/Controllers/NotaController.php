@@ -467,6 +467,16 @@ class NotaController extends Controller
         $matriculas_sin_orden = $grado->matriculas;
         $matriculas = $matriculas_sin_orden->sortBy('apellido')->values()->all();
 
+        // Matriculas reales (ya sea que se permita o no incluir a los desertores).
+        $matriculas_reales = Collection::make();
+
+        foreach ($matriculas as $matricula) {
+            // Validación de alumnos que han desertado.
+            if ($request->desercion == 1 || $matricula->desercion == null) {
+                $matriculas_reales->push($matricula);
+            }
+        }
+
         // Notas de evaluaciones en todas las materias y de todos los alumnos.
         $notas_all = Collection::make();
 
@@ -481,7 +491,7 @@ class NotaController extends Controller
             // Puntos de la materia especificada.
             $puntos = 0;
 
-            foreach ($matriculas as $matricula) {
+            foreach ($matriculas_reales as $matricula) {
 
                 // Para promedio trimestral.
                 if ($request->tipo == 'T') {
@@ -498,16 +508,17 @@ class NotaController extends Controller
 
                 $notas->push($promedio);
 
-                $puntos += $promedio;
+                $puntos += $promedio;                
             }
 
             $notas_all->push($notas);
 
-            $promedio_materia_all->push(round($puntos / count($matriculas), 2));
+            $promedio_materia_all->push(round($puntos / count($matriculas_reales), 2));
         }
 
         // Notas de conducta.
         if ($request->conducta == 1) {
+
             // Valores.
             $valores = Valor::where('estado', 1)->get();
 
@@ -519,8 +530,8 @@ class NotaController extends Controller
                 // Notas de todos los alumnos en el valor especificado.
                 $notas_conducta = Collection::make();
 
-                foreach ($matriculas as $matricula) {
-                    
+                foreach ($matriculas_reales as $matricula) {
+
                     // Para promedio trimestral.
                     if ($request->tipo == 'T') {
                         $promedio_c = $this->promediarTrimestreConducta($grado->id, $valor->id, $matricula->alumno->id, $request->trimestre);
@@ -534,7 +545,7 @@ class NotaController extends Controller
                         $promedio_c = round($prom_c / 3.0, 2);
                     }
 
-                    $notas_conducta->push($this->traducirNotaConducta($promedio_c));
+                    $notas_conducta->push($this->traducirNotaConducta($promedio_c));                    
                 }
 
                 $notas_conducta_all->push($notas_conducta);
@@ -584,7 +595,7 @@ class NotaController extends Controller
             $retenidos = 0;
 
             // Recorriendo por filas (alumnos).
-            for ($i = 0; $i < count($matriculas); $i++) {
+            for ($i = 0; $i < count($matriculas_reales); $i++) {
 
                 // Número de materias aplazadas por el alumno.
                 $aplazadas = 0;
@@ -598,9 +609,9 @@ class NotaController extends Controller
 
                 if ($aplazadas >= $NUMERO_DE_MATERIAS_APLAZADAS_PARA_SER_RETENIDO) {
 
-                    if ($matriculas[$i]->alumno->genero == 'F' && $matriculas[$i]->desercion == null) {
+                    if ($matriculas_reales[$i]->alumno->genero == 'F' && $matriculas_reales[$i]->desercion == null) {
                         $retenidas++;
-                    } elseif ($matriculas[$i]->desercion == null) {
+                    } elseif ($matriculas_reales[$i]->desercion == null) {
                         $retenidos++;
                     }
                 }
@@ -637,14 +648,19 @@ class NotaController extends Controller
             ->with('notas_conducta', $notas_conducta_all)
             ->with('promedios', $promedio_materia_all)
             ->with('tipo', $request->tipo)
-            ->with('estadisticas', $estadisticas);
+            ->with('estadisticas', $estadisticas)
+            ->with('matriculas_reales', $matriculas_reales);
     }
 
-    
-
-
-
-    // LOS PROMEDIOS
+    /**
+     * Retorna el promedio de un alumno en una materia y trimestre específico.
+     *
+     * @param  int  $grado
+     * @param  int  $materia
+     * @param  int  $alumno
+     * @param  int  $trimestre
+     * @return float
+     */
     public function promediarTrimestre($grado, $materia, $alumno, $trimestre)
     {
         // Evaluaciones del trimestre.
@@ -702,7 +718,16 @@ class NotaController extends Controller
         return $promedio;
     }
 
-
+    /**
+     * Retorna el promedio de nota de conducta de un alumno en un trimestre
+     * específico.
+     *
+     * @param  int  $grado
+     * @param  int  $valor
+     * @param  int  $alumno
+     * @param  int  $trimestre
+     * @return int
+     */
     public function promediarTrimestreConducta($grado, $valor, $alumno, $trimestre)
     {
         $nota_c = DB::table('alumno_valor')
@@ -745,6 +770,13 @@ class NotaController extends Controller
         return $nota;
     }
 
+    /**
+     * Retorna la nota promedio de conducta de un alumno como cadena de caracteres
+     * según corresponda en la escala: E, MB, B, R, M.
+     *
+     * @param  float  $nota
+     * @return string
+     */
     public function traducirNotaConducta($nota)
     {
         switch ($nota) {
