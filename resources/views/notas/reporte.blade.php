@@ -81,15 +81,19 @@
           <th rowspan="2" style="width: 12px">No.</th>
           <th rowspan="2">Nombre de los estudiantes</th>
           <th colspan="{{ count($materias) }}" style="text-align: center;">Asignatura</th>
+          @if ($mostrar_conducta == 1)
           <th colspan="{{ count($valores) }}" style="text-align: center;">Educación moral y cívica</th>
+          @endif
         </tr>
         <tr>
           @foreach ($materias as $materia)
           <th style="width: 50px;"><span class="tabla-letra-vertical">{{ $materia->nombre }}</span></th>
           @endforeach
+          @if ($mostrar_conducta == 1)
           @foreach ($valores as $valor)
           <th style="width: 50px;"><div class="tabla-letra-vertical">{{ $valor->valor }}</div></th>
           @endforeach
+          @endif
         </tr>
         </thead>
         <tbody>
@@ -100,56 +104,21 @@
           @for ($j = 0; $j < count($materias); $j++)
           <td>{{ $notas[$j][$i] }}</td>
           @endfor
+          @if ($mostrar_conducta == 1)
           @for ($k = 0; $k < count($valores); $k++)
-          <td>{{ $k }}</td>
+          <td>{{ $notas_conducta[$k][$i] }}</td>
           @endfor
+          @endif
         </tr>
         @endfor
         </tbody>
+        <tfoot>
+          <tr>
+            <td></td>
+            <td>Promedio</td>
+          </tr>
+        </tfoot>
       </table>
-    </div>
-    <!-- /.col -->
-  </div>
-  <!-- /.row -->
-
-  <div class="row">
-    <!-- accepted payments column -->
-    <div class="col-xs-6">
-      <p class="lead">Payment Methods:</p>
-      <img src="../../dist/img/credit/visa.png" alt="Visa">
-      <img src="../../dist/img/credit/mastercard.png" alt="Mastercard">
-      <img src="../../dist/img/credit/american-express.png" alt="American Express">
-      <img src="../../dist/img/credit/paypal2.png" alt="Paypal">
-
-      <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
-        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem plugg
-        dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
-      </p>
-    </div>
-    <!-- /.col -->
-    <div class="col-xs-6">
-      <p class="lead">Amount Due 2/22/2014</p>
-
-      <div class="table-responsive">
-        <table class="table">
-          <tr>
-            <th style="width:50%">Subtotal:</th>
-            <td>$250.30</td>
-          </tr>
-          <tr>
-            <th>Tax (9.3%)</th>
-            <td>$10.34</td>
-          </tr>
-          <tr>
-            <th>Shipping:</th>
-            <td>$5.80</td>
-          </tr>
-          <tr>
-            <th>Total:</th>
-            <td>$265.24</td>
-          </tr>
-        </table>
-      </div>
     </div>
     <!-- /.col -->
   </div>

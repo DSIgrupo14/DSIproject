@@ -492,8 +492,47 @@ class NotaController extends Controller
             $notas_all->push($notas);
         }
 
-        // Valores.
-        $valores = Valor::where('estado', 1)->get();
+        // Notas de conducta.
+        if ($request->conducta == 1) {
+            // Valores.
+            $valores = Valor::where('estado', 1)->get();
+
+            // Notas de conducta de todos los valores y de todos los alumnos.
+            $notas_conducta_all = Collection::make();
+
+            foreach ($valores as $valor) {
+                
+                // Notas de todos los alumnos en el valor especificado.
+                $notas_conducta = Collection::make();
+
+                foreach ($matriculas as $matricula) {
+                    
+                    // Para promedio trimestral.
+                    if ($request->tipo == 'T') {
+                        $promedio_c = $this->promediarTrimestreConducta($grado->id, $valor->id, $matricula->alumno->id, $request->trimestre);
+
+                    // Para promedio anual.
+                    } else {
+                        $prom_c = 0;
+                        for ($i = 1; $i <= 3; $i++) { 
+                            $prom_c += $this->promediarTrimestreConducta($grado->id, $valor->id, $matricula->alumno->id, $i);
+                        }
+                        $promedio_c = round($prom_c / 3.0, 2);
+                    }
+
+                    $notas_conducta->push($this->traducirNotaConducta($promedio_c));
+                }
+
+                $notas_conducta_all->push($notas_conducta);
+            }
+
+        } else {
+            // Valores.
+            $valores = null;
+
+            // Notas de conducta de todos los valores y de todos los alumnos.
+            $notas_conducta_all = null;
+        }
 
         return view('notas.reporte')
             ->with('grado', $grado)
@@ -501,8 +540,14 @@ class NotaController extends Controller
             ->with('materias', $materias)
             ->with('matriculas', $matriculas)
             ->with('notas', $notas_all)
-            ->with('valores', $valores);
+            ->with('mostrar_conducta', $request->conducta)
+            ->with('valores', $valores)
+            ->with('notas_conducta', $notas_conducta_all);
     }
+
+    
+
+
 
     // LOS PROMEDIOS
     public function promediarTrimestre($grado, $materia, $alumno, $trimestre)
@@ -560,5 +605,75 @@ class NotaController extends Controller
         }
 
         return $promedio;
+    }
+
+
+    public function promediarTrimestreConducta($grado, $valor, $alumno, $trimestre)
+    {
+        $nota_c = DB::table('alumno_valor')
+            ->where('alumno_id', $alumno)
+            ->where('valor_id', $valor)
+            ->where('grado_id', $grado)
+            ->where('trimestre', $trimestre)
+            ->first();
+
+        if ($nota_c) {
+            switch ($nota_c->nota) {
+                case 'E':
+                    $nota = 10;
+                    break;
+
+                case 'MB':
+                    $nota = 8;
+                    break;
+
+                case 'B':
+                    $nota = 6;
+                    break;
+                
+                case 'R':
+                    $nota = 4;
+                    break;
+
+                case 'M':
+                    $nota = 2;
+                    break;
+
+                default:
+                    $nota = 0;
+                    break;
+            }
+        } else {
+            $nota = 0;
+        }
+
+        return $nota;
+    }
+
+    public function traducirNotaConducta($nota)
+    {
+        switch ($nota) {
+            case $nota > 8:
+                $n = 'E';
+                break;
+
+            case $nota > 6:
+                $n = 'MB';
+                break;
+
+            case $nota > 4:
+                $n = 'B';
+                break;
+            
+            case $nota > 2:
+                $n = 'R';
+                break;
+
+            case $nota <= 2:
+                $n = 'M';
+                break;
+        }
+
+        return $n;
     }
 }
