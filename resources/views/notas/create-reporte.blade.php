@@ -54,6 +54,7 @@
                   {!! Form::label('tipo', 'Tipo de reporte *', ['class' => 'col-sm-3 control-label']) !!}
                   <div class="col-sm-6">
                     {!! Form::select('tipo', ['A' => 'Anual', 'T' => 'Trimestral'], old('tipo'), ['class' => 'form-control', 'placeholder' => '-- Seleccione un tipo de reporte --', 'onchange' => 'desbloquear(this.value);', 'required'] ) !!}
+                    <span class="help-block" style="margin-bottom: 0;"><small>El reporte anual incluye cuadro de estadísticas del año, con el número de matrículas, retirados y promovidos.</small></span>
                     @if ($errors->has('tipo'))
                     <span class="help-block">{{ $errors->first('tipo') }}</span>
                     @endif
@@ -75,7 +76,7 @@
                     <div class="checkbox">
                       <label>
                         {!! Form::checkbox('conducta', 1) !!} Incluir notas de conducta
-                        <span class="help-block"><small>Permite que en el reporte aparezcan las columnas de educación moral y cívica.</small></span>
+                        <span class="help-block" style="margin-bottom: 0;"><small>Permite que en el reporte aparezcan las columnas de educación moral y cívica.</small></span>
                       </label>
                     </div>
                   </div>

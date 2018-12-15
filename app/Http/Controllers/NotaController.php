@@ -448,6 +448,10 @@ class NotaController extends Controller
         }
 
         $this->validate(request(), $request_data);
+
+        $NUMERO_DE_MATERIAS_APLAZADAS_PARA_SER_RETENIDO = 1;
+
+        $NOTA_PARA_APLAZAR_MATERIA = 5;
         
         // Fecha de creación.
         $hoy = Carbon::now()->format('d/m/y');
@@ -544,6 +548,84 @@ class NotaController extends Controller
             $notas_conducta_all = null;
         }
 
+        // Estadísticas anuales.
+        if ($request->tipo == 'A') {
+
+            // Contadores de matrícula inicial.
+            $matricula_inicial_femenina = 0;
+            $matricula_inicial_masculina = 0;
+
+            // Contadores de retirados (desertaron).
+            $retiradas = 0;
+            $retirados = 0;
+
+            foreach ($matriculas as $matricula) {
+                if ($matricula->alumno->genero == 'F') {
+                    $matricula_inicial_femenina++;
+
+                    if ($matricula->desercion != null) {
+                        $retiradas++;
+                    }
+                } else {
+                    $matricula_inicial_masculina++;
+
+                    if ($matricula->desercion != null) {
+                        $retirados++;
+                    }
+                }
+            }
+
+            // Contadores de matrícula final.
+            $matricula_final_femenina = $matricula_inicial_femenina - $retiradas;
+            $matricula_final_masculina = $matricula_inicial_masculina - $retirados;
+
+            // Contadores de retenidos (aplazaron el grado).
+            $retenidas = 0;
+            $retenidos = 0;
+
+            // Recorriendo por filas (alumnos).
+            for ($i = 0; $i < count($matriculas); $i++) {
+
+                // Número de materias aplazadas por el alumno.
+                $aplazadas = 0;
+                
+                // Recorriendo por columnas (notas del alumno especificado en cada materia).
+                for ($j = 0; $j < count($materias); $j++) { 
+                    if ($notas_all[$j][$i] < $NOTA_PARA_APLAZAR_MATERIA) {
+                        $aplazadas++;
+                    }
+                }
+
+                if ($aplazadas >= $NUMERO_DE_MATERIAS_APLAZADAS_PARA_SER_RETENIDO) {
+
+                    if ($matriculas[$i]->alumno->genero == 'F' && $matriculas[$i]->desercion == null) {
+                        $retenidas++;
+                    } elseif ($matriculas[$i]->desercion == null) {
+                        $retenidos++;
+                    }
+                }
+            }
+
+            // Contadores de promovidos (pasaron el grado).
+            $promovidas = $matricula_final_femenina - $retenidas;
+            $promovidos = $matricula_final_masculina - $retenidos;
+
+            $estadisticas = [
+                'matricula_inicial_femenina'  => $matricula_inicial_femenina,
+                'matricula_inicial_masculina' => $matricula_inicial_masculina,
+                'retiradas'                   => $retiradas,
+                'retirados'                   => $retirados,
+                'matricula_final_femenina'    => $matricula_final_femenina,
+                'matricula_final_masculina'   => $matricula_final_masculina,
+                'promovidas'                  => $promovidas,
+                'promovidos'                  => $promovidos,
+                'retenidas'                   => $retenidas,
+                'retenidos'                   => $retenidos,
+            ];
+        } else {
+            $estadisticas = null;
+        }
+
         return view('notas.reporte')
             ->with('grado', $grado)
             ->with('hoy', $hoy)
@@ -553,7 +635,9 @@ class NotaController extends Controller
             ->with('mostrar_conducta', $request->conducta)
             ->with('valores', $valores)
             ->with('notas_conducta', $notas_conducta_all)
-            ->with('promedios', $promedio_materia_all);
+            ->with('promedios', $promedio_materia_all)
+            ->with('tipo', $request->tipo)
+            ->with('estadisticas', $estadisticas);
     }
 
     

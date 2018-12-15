@@ -131,6 +131,59 @@
     <!-- /.col -->
   </div>
   <!-- /.row -->
+
+  @if ($tipo == 'A')
+  <!-- Table row -->
+  <div class="row">
+    <div class="col-xs-12 table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th colspan="5" style="text-align: center;">Estadísticas</th>
+          </tr>
+          <tr>
+            <th>Género</th>
+            <th>Matrícula inicial</th>
+            <th>Retirados</th>
+            <th>Matrícula final</th>
+            <th>Promovidos</th>
+            <th>Retenidos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Femenino</th>
+            <td>{{ $estadisticas['matricula_inicial_femenina'] }}</td>
+            <td>{{ $estadisticas['retiradas'] }}</td>
+            <td>{{ $estadisticas['matricula_final_femenina'] }}</td>
+            <td>{{ $estadisticas['promovidas'] }}</td>
+            <td>{{ $estadisticas['retenidas'] }}</td>
+          </tr>
+          <tr>
+            <th>Masculino</th>
+            <td>{{ $estadisticas['matricula_inicial_masculina'] }}</td>
+            <td>{{ $estadisticas['retirados'] }}</td>
+            <td>{{ $estadisticas['matricula_final_masculina'] }}</td>
+            <td>{{ $estadisticas['promovidos'] }}</td>
+            <td>{{ $estadisticas['retenidos'] }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th>Total</th>
+            <td>{{ $estadisticas['matricula_inicial_femenina'] + $estadisticas['matricula_inicial_masculina'] }}</td>
+            <td>{{ $estadisticas['retiradas'] + $estadisticas['retirados'] }}</td>
+            <td>{{ $estadisticas['matricula_final_femenina'] + $estadisticas['matricula_final_masculina'] }}</td>
+            <td>{{ $estadisticas['promovidas'] + $estadisticas['promovidos'] }}</td>
+            <td>{{ $estadisticas['retenidas'] + $estadisticas['retenidos'] }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+  @endif
 </section>
 <!-- /.content -->
 <div class="clearfix"></div>
