@@ -75,7 +75,7 @@
                     <div class="checkbox">
                       <label>
                         {!! Form::checkbox('conducta', 1) !!} Incluir notas de conducta
-                        <span class="help-block"><small>Permite que en el reporte aparezcan las columnas con los aspectos morales y cívicos evaluados y su nota correspondiente.</small></span>
+                        <span class="help-block"><small>Permite que en el reporte aparezcan las columnas de educación moral y cívica.</small></span>
                       </label>
                     </div>
                   </div>
@@ -83,7 +83,7 @@
                 <div class="row">
                   <div class="col-sm-9">
                     <div class="pull-right">
-                      {!! Form::submit('Descargar', ['class' => 'btn btn-primary btn-flat']) !!}
+                      {!! Form::submit('Generar reporte', ['class' => 'btn btn-primary btn-flat']) !!}
                     </div>
                   </div>
                 </div>

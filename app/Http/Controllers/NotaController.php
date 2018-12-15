@@ -315,7 +315,7 @@ class NotaController extends Controller
             <p>Las notas se han actualizado correctamente.</p>
         ')->success()->important();
 
-        return redirect()->route('notas.edit', $request->gra_mat);
+        return redirect()->back();
     }
 
     /**
@@ -444,33 +444,121 @@ class NotaController extends Controller
         );
 
         if ($request->tipo == 'T') {
-            array_push($request_data, ['trimestre' => 'required']);
+            $request_data['trimestre'] = 'required';
         }
 
         $this->validate(request(), $request_data);
         
         // Fecha de creación.
-        $hoy = Carbon::now()->format('d/m/y h:i A');
+        $hoy = Carbon::now()->format('d/m/y');
 
         // Grado.
         $grado = Grado::find($request->grado_id);
 
         // Materias.
-        $materias = $grado->materias;
+        $materias_sin_ordenar = $grado->materias;
+        $materias = $materias_sin_ordenar->sortBy('nombre')->values()->all();
 
         // Alumnos matriculados en el grado.
         $matriculas_sin_orden = $grado->matriculas;
         $matriculas = $matriculas_sin_orden->sortBy('apellido')->values()->all();
 
+        // Notas de evaluaciones en todas las materias y de todos los alumnos.
+        $notas_all = Collection::make();
+
+        foreach ($materias as $materia) {
+
+            // Notas de todos los alumnos en la materia especificada.
+            $notas = Collection::make();
+
+            foreach ($matriculas as $matricula) {
+
+                // Para promedio trimestral.
+                if ($request->tipo == 'T') {
+                    $promedio = $this->promediarTrimestre($grado->id, $materia->id, $matricula->alumno->id, $request->trimestre);
+                
+                // Para promedio anual.
+                } else {
+                    $prom = 0;
+                    for ($i = 1; $i <= 3; $i++) {
+                        $prom += $this->promediarTrimestre($grado->id, $materia->id, $matricula->alumno->id, $i);
+                    }
+                    $promedio = round($prom / 3.0, 2);
+                }
+
+                $notas->push($promedio);
+            }
+
+            $notas_all->push($notas);
+        }
+
         // Valores.
         $valores = Valor::where('estado', 1)->get();
 
-        //$pdf = \PDF::loadView('reportes.comprobante', ['reservacion' => $reservacion, 'hoy' => $hoy])->setPaper('letter', 'landscape');
-
-        $pdf = \PDF::loadView('reportes.comprobante', ['hoy' => $hoy]);
-
-        return $pdf->stream('reporte_de_notas.pdf');
+        return view('notas.reporte')
+            ->with('grado', $grado)
+            ->with('hoy', $hoy)
+            ->with('materias', $materias)
+            ->with('matriculas', $matriculas)
+            ->with('notas', $notas_all)
+            ->with('valores', $valores);
     }
 
-    
+    // LOS PROMEDIOS
+    public function promediarTrimestre($grado, $materia, $alumno, $trimestre)
+    {
+        // Evaluaciones del trimestre.
+        $evaluaciones = Evaluacion::where('tipo', 'EXA')
+            ->where('grado_id', $grado)
+            ->where('materia_id', $materia)
+            ->where('trimestre', $trimestre)
+            ->orWhere('tipo', 'ACT')
+            ->where('grado_id', $grado)
+            ->where('materia_id', $materia)
+            ->where('trimestre', $trimestre)
+            ->get();
+
+        // Promedio del trimestre.
+        $promedio = 0;
+
+        // Si hay evaluaciones.
+        if (count($evaluaciones) > 0) {
+            foreach ($evaluaciones as $evaluacion) {
+                $nota = DB::table('alumno_evaluacion')
+                    ->where('alumno_id', $alumno)
+                    ->where('evaluacion_id', $evaluacion->id)
+                    ->first();
+
+                // Si hay registro.
+                if ($nota) {
+                    $promedio += round($nota->nota * $evaluacion->porcentaje, 2);
+                } else {
+                    $promedio += 0;
+                }
+            }
+        }
+
+        // Evaluación de recuperación.
+        $recuperacion = Evaluacion::where('tipo', 'REC')
+            ->where('grado_id', $grado)
+            ->where('materia_id', $materia)
+            ->where('trimestre', $trimestre)
+            ->first();
+
+        // Si hay evaluación de recuperación.
+        if ($recuperacion) {
+            $nota_recuperacion = DB::table('alumno_evaluacion')
+                ->where('alumno_id', $alumno)
+                ->where('evaluacion_id', $recuperacion->id)
+                ->first();
+
+            if ($nota_recuperacion) {
+                $promedio += round($nota_recuperacion->nota, 2);
+            }
+        } else {
+            $promedio += 0;
+        }
+
+        return $promedio;
+    }
 }

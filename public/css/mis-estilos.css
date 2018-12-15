@@ -61,3 +61,19 @@
 .table tfoot tr td {
     vertical-align: middle;
 }
+
+.tabla-letra-vertical {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+}
+
+/*
+    display: block;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+
+    writing-mode: tb-rl;
+
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+*/
