@@ -114,8 +114,16 @@
         </tbody>
         <tfoot>
           <tr>
-            <td></td>
-            <td>Promedio</td>
+            <th></th>
+            <th>Promedio</th>
+            @foreach ($promedios as $promedio)
+            <th>{{ $promedio }}</th>
+            @endforeach
+            @if ($mostrar_conducta == 1)
+            @foreach ($valores as $valor)
+            <th></th>
+            @endforeach
+            @endif
           </tr>
         </tfoot>
       </table>

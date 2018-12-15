@@ -466,10 +466,16 @@ class NotaController extends Controller
         // Notas de evaluaciones en todas las materias y de todos los alumnos.
         $notas_all = Collection::make();
 
+        // Promedios de todas las materia.
+        $promedio_materia_all = Collection::make();
+
         foreach ($materias as $materia) {
 
             // Notas de todos los alumnos en la materia especificada.
             $notas = Collection::make();
+
+            // Puntos de la materia especificada.
+            $puntos = 0;
 
             foreach ($matriculas as $matricula) {
 
@@ -487,9 +493,13 @@ class NotaController extends Controller
                 }
 
                 $notas->push($promedio);
+
+                $puntos += $promedio;
             }
 
             $notas_all->push($notas);
+
+            $promedio_materia_all->push(round($puntos / count($matriculas), 2));
         }
 
         // Notas de conducta.
@@ -542,7 +552,8 @@ class NotaController extends Controller
             ->with('notas', $notas_all)
             ->with('mostrar_conducta', $request->conducta)
             ->with('valores', $valores)
-            ->with('notas_conducta', $notas_conducta_all);
+            ->with('notas_conducta', $notas_conducta_all)
+            ->with('promedios', $promedio_materia_all);
     }
 
     
